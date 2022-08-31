@@ -1,0 +1,102 @@
+<h2>Map and filter</h2>
+<p><p><strong>Functional programming</strong> is a programming paradigm that treats computation as the evaluation of mathematical functions. Even though Python isn't a purely functional language, it implements some functional programming functionality, for example, lambda functions that you are already familiar with. In this topic, you will learn about other useful functional programming tools: <code class="language-python">map()</code> and <code class="language-python">filter()</code>.</p>
+
+<h5 id="map" style="text-align: center;">map( )</h5>
+
+<p>Suppose you have a list containing some numbers:</p>
+
+<pre><code class="language-python">numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+
+<p>Imagine you now want to obtain a new list that contains the numbers from the list above multiplied by 2. </p>
+
+<p>You can of course always pass the numbers one by one and collect the output in a for loop:</p>
+
+<pre><code class="language-python">doubled_numbers = [2*n for n in numbers]
+
+print(doubled_numbers)
+# The output is [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]</code></pre>
+
+<p>However, there exists another way to do so with the help of the built-in <code class="language-python">map()</code> function. Let's take a look at its syntax:</p>
+
+<pre><code class="language-python">map(function, iterable)</code></pre>
+
+<p><code class="language-python">map()</code> takes a function object and a list (or any other iterable, e.g., an array or a dictionary). The function is then applied to each element of that list, and<strong> </strong>an<strong> iterator </strong>is returned. You can explicitly convert it to a list using the <code class="language-python">list()</code> function to see the result.</p>
+
+<p>So the code from the example above can be re-written as follows:</p>
+
+<pre><code class="language-python">def doubler(x):
+    return 2*x
+
+doubled_numbers = map(doubler, numbers)
+
+print(list(doubled_numbers))
+# Outputs [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]</code></pre>
+
+<p>Note that we can always combine <code class="language-python">map()</code><strong> </strong>with lambda functions:</p>
+
+<pre><code class="language-python">doubled_numbers = map(lambda x: 2*x, numbers)
+
+print(list(doubled_numbers))
+# Outputs [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]</code></pre>
+
+<p><code class="language-python">map()</code><strong> </strong>comes in handy when a function you want to apply several times takes multiple arguments. In that case, you can simply pass more than one list to <code class="language-python">map()</code>. The values for each argument will be then taken from the corresponding list.</p>
+
+<p>The code below, for example, computes the sum of three lists:</p>
+
+<pre><code class="language-python">x_list = [1, 2, 3] 
+y_list = [4, 5, 6]
+z_list = [7, 8, 9] 
+
+s = list(map(lambda x, y, z: x + y + z, x_list, y_list, z_list))
+
+print(s)
+# The output is [12, 15, 18]</code></pre>
+
+<p><a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://pythontutor.com/visualize.html#code=x_list%20%3D%20%5B1,%202,%203%5D%20%0Ay_list%20%3D%20%5B4,%205,%206%5D%0Az_list%20%3D%20%5B7,%208,%209%5D%20%0A%0As%20%3D%20list%28map%28lambda%20x,%20y,%20z%3A%20x%20%2B%20y%20%2B%20z,%20x_list,%20y_list,%20z_list%29%29%0A%0Aprint%28s%29&amp;cumulative=false&amp;curInstr=0&amp;heapPrimitives=nevernest&amp;mode=display&amp;origin=opt-frontend.js&amp;py=3&amp;rawInputLstJSON=%5B%5D&amp;textReferences=false" rel="noopener noreferrer nofollow">Here</a> is its visualization for better understanding.</p>
+
+<h5 id="filter" style="text-align: center;">filter( )</h5>
+
+<p>Let's continue working with our list of numbers from 0 to 9:</p>
+
+<pre><code class="language-python">numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+
+<p>Imagine now that you want to obtain yet another list which contains only the odd numbers from the list above.</p>
+
+<p>To that end, the built-in <code class="language-python">filter()</code> function comes in handy.</p>
+
+<p><code class="language-python">filter()</code> takes a Boolean function, i.e., a function that returns True or False, along with a list, and constructs a new iterator from the elements of the list for which the function returns True. This iterator can be then converted to a list. The syntax is as follows:</p>
+
+<pre><code class="language-python">filter(boolean_function, iterable)</code></pre>
+
+<p>Thus, we can collect all the odd numbers from our list in the following way:</p>
+
+<pre><code class="language-python">odd_numbers = filter(lambda x: x % 2, numbers)
+
+print(list(odd_numbers))
+# The output is [1, 3, 5, 7, 9]</code></pre>
+
+<p>As you might have already noticed, you can do the same thing using a list comprehension:</p>
+
+<pre><code class="language-python">odd_numbers = [n for n in numbers if n % 2]
+
+print(odd_numbers)
+# Also outputs [1, 3, 5, 7, 9]</code></pre>
+
+<p> </p>
+
+<h5 id="map-and-filter-or-list-comprehension-what-should-i-choose" style="text-align: center;">map( ) and filter( ) or list comprehension: what should I choose?</h5>
+
+<p>As you have probably noticed while reading this material, <code class="language-python">map()</code> and <code class="language-python">filter()</code> can always be replaced by list comprehensions. So, what should be preferred? </p>
+
+<p>Even though Python implements the functional programming functionality such as  <code class="language-python">map()</code> and <code class="language-python">filter()</code>, it isn't a functional programming language. Therefore, many developers argue that more <em>'pythonic'</em> ways should be preferred where possible. Also, some programmers find list comprehensions more readable and easy to understand.</p>
+
+<p>At the same time, under some conditions, <code class="language-python">map()</code> and <code class="language-python">filter()</code> can be faster than list comprehensions, so it's definitely worth keeping them in mind.</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<ul>
+	<li><code class="language-python">map()</code> and <code class="language-python">filter()</code> come from the functional programming paradigm.</li>
+	<li><code class="language-python">map()</code><strong> </strong>evaluates some function on multiple parameter values in an iterable.</li>
+	<li><code class="language-python">filter()</code> finds a subset of elements of a list that satisfy some condition.</li>
+	<li><code class="language-python">map()</code> and <code class="language-python">filter()</code> can be replaced with list comprehensions. However, sometimes they can be more computationally efficient.</li>
+</ul>

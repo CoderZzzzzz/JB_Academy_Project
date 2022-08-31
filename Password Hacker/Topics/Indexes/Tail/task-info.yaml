@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    sentence = input()
+
+    # now print the last symbol of `sentence`
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8496#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sun, 07 Aug 2022 12:20:05 UTC
+record: -1

@@ -1,0 +1,30 @@
+content:
+- Multi-line programs
+- Basic data types
+- Variables
+- Invoking a function
+- Load module
+- Taking input
+- Naming variables
+- Program with numbers
+- List
+- Comparisons
+- Indexes
+- Tuple
+- Bytes basics
+- Creating bytes
+- How to read the documentation
+- Context manager
+- Socket module
+- Scopes
+- Lambda functions
+- Iterators
+- Map and filter
+- Itertools module
+- Split and join
+- Dictionary methods
+- Objects in Python
+- Default arguments
+- Exceptions
+- Args
+- Time module

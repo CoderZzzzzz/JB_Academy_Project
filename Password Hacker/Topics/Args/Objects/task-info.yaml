@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: '"string"'
+- text: '[ "l", "i", "s", "t" ]'
+- text: '[4, 0, 4]'
+- text: 404
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9551#comment
+status: Solved
+record: -1
+local_check: false

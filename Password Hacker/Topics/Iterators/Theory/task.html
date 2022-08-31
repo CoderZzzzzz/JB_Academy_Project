@@ -1,0 +1,114 @@
+<h2>Iterators</h2>
+<html><body><p>At this point, you already know about for loops in Python that you can use to go through the elements in a list, for example. However, Python also has other similar tools with their own advantages, which we're going to learn about in this topic, so let's start!</p>
+<h5 id="iterables-and-iterators" style="text-align: center;">Iterables and iterators</h5>
+<p>In Python, we call any object we can loop over an <strong>iterable</strong>. Very common examples of iterable objects are lists, strings, and dictionaries.</p>
+<p>Iterables in Python implement the <code class="language-python">__iter__()</code> method that returns an <strong>iterator</strong>, an object that traverses an iterable and returns its elements one by one. Iterators represent a stream of data. They implement the <code class="language-python">__next__()</code> method, which returns the items of an iterable one by one.</p>
+<p>You can create an iterator passing an iterable to the built-in <code class="language-python">iter()</code> function.</p>
+<pre><code class="language-python"># This is a list...
+my_list = [1, 2, 3]
+
+# ... and this is how we create an iterator from it
+my_iterator = iter(my_list)
+print(my_iterator)
+
+# &lt;list_iterator object at 0x000001F06D792B70&gt;</code></pre>
+<p> Each time you want to get the actual values, you need to pass iterator to the <code class="language-python">next()</code> function: </p>
+<pre><code class="language-python">print(next(my_iterator))
+# 1
+
+print(next(my_iterator))
+# 2
+
+print(next(my_iterator))
+# 3
+
+print(next(my_iterator))
+# StopIteration exception</code></pre>
+<p>Note that when we call <code class="language-python">next()</code> for the fourth time, we get a <code class="language-python">StopIteration</code>exception. It's because our list contains just three elements, and iterator can only pass them once.</p>
+<p>But do you always have to call <code class="language-python">next()</code> manually? Not if you create and use iterators in <code class="language-python">for</code> loop statements using the following syntax:</p>
+<pre><code class="language-python">for item in iterable:
+    ...</code></pre>
+<p>Python <code class="language-python">for</code> loop will automatically create an iterator from a given iterable and get its elements one by one with the help of the <code class="language-python">next</code> method until the iterable is exhausted. Thus, to print out the elements of <code class="language-python">my_list</code> defined above, we can simply write the following:</p>
+<pre><code class="language-python">for item in my_list:
+    print(item)
+
+# 1
+# 2
+# 3</code></pre>
+<h5 id="zip" style="text-align: center;">zip()</h5>
+<p>Now you know how to create an iterator from a single iterable. What if you need to look over the elements of not one but multiple lists at the same time? Well, then the built-in <code class="language-python">zip()</code> comes in very handy.</p>
+<p>Suppose, for example, that you have two lists with the first and last names of the employees, and you need to print out the full names. With <code class="language-python">zip()</code>, this can be easily done as follows:</p>
+<pre><code class="language-python">first_names = ['John', 'Anna', 'Tom']
+last_names = ['Smith', 'Williams', 'Davis']
+
+for name, last_name in zip(first_names, last_names):
+    print(name, last_name)
+
+# John Smith
+# Anna Williams
+# Tom Davis
+</code></pre>
+<p><code class="language-python">zip()</code> takes several iterables and returns an iterator of<strong> </strong>tuples, where each tuple contains one element from each of the given iterables. Note that if <code class="language-python">zip()</code> gets iterables of different lengths, iteration will stop as soon as the shortest iterable is exhausted:</p>
+<pre><code class="language-python">short_list = [1, 2, 3]
+long_list = [10, 20, 30, 40]
+
+for a, b in zip(short_list, long_list):
+    print(a, b)
+
+# 1 10
+# 2 20
+# 3 30</code></pre>
+<p>However, in <strong>Python 3.10</strong> <tt><code class="language-python">zip()</code> </tt>has an optional boolean keyword parameter <code class="language-python">strict</code>. When set to <code class="language-python">True</code>, if one of the arguments is exhausted before the others, a <em>ValueError </em>will be raised:</p>
+<pre><code class="language-python">my_pets = ['Pistachio', 'Fluffy', 'Emperor']
+your_pets = ['Claws', 'Grumpy', 'Mr. Cat', 'Naughty', 'Blue Paws']
+
+for pet1, pet2 in zip(my_pets, your_pets):
+    print(pet1, pet2)
+
+# Pistachio Claws
+# Fluffy Grumpy
+# Emperor Mr. Cat
+
+for pet1, pet2 in zip(my_pets, your_pets, strict=True):
+    print(pet1, pet2)
+
+# Pistachio Claws
+# Fluffy Grumpy
+# Emperor Mr. Cat
+
+Traceback (most recent call last):
+   File "&lt;pyshell#4&gt;", line 1, in &lt;module&gt;
+     for pet1, pet2 in zip(my_pets, your_pets, strict=True):
+ ValueError: zip() argument 2 is longer than argument 1
+</code></pre>
+<p>This new option allows you to explicitly require all iterables to have an equal length and will help you to quickly detect bugs in case they don't.</p>
+<h5 id="enumerate" style="text-align: center;">enumerate()</h5>
+<p>Another very useful tool is the built-in <code class="language-python">enumerate()</code> function, which takes an iterable and returns its elements one by one along with their indexes. For instance, the code below prints out the names of the months (stored in a list) along with their numbers:</p>
+<pre><code class="language-python">months_list = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+for n, month in enumerate(months_list):
+    print(n + 1, month)
+
+# 1 Jan
+# 2 Feb
+# 3 Mar
+# 4 Apr
+# 5 May
+# 6 Jun
+# etc.</code></pre>
+<p>Note that by default the counter starts at 0, but you can actually explicitly specify any starting point:</p>
+<pre><code class="language-python">for n, month in enumerate(months_list, start=1):
+    print(n, month)
+
+# 1 Jan
+# 2 Feb
+# 3 Mar
+# etc.</code></pre>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<ul>
+<li>In Python, iterator objects traverse an iterable, e.g., a list.</li>
+<li>There are several built-in functions to create iterators, for example, <code class="language-python">iter()</code>,  <code class="language-python">zip()</code> and <code class="language-python">enumerate()</code>.</li>
+<li><code class="language-python">zip()</code> performs parallel iteration over several iterables.</li>
+<li><code class="language-python">enumerate()</code> returns elements of an iterable along with their indexes one by one.</li>
+</ul></body></html>

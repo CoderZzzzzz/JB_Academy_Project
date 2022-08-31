@@ -1,0 +1,105 @@
+<h2>Split and join</h2>
+<p>In Python, strings and lists are quite similar. Firstly, they both pertain to <strong>sequences</strong>, although strings are limited to characters while lists can store data of different types. In addition, you can <strong>iterate </strong>both over strings and lists. However, sometimes you need to turn a string into a list or vice versa. Python has these kinds of tools. The methods that will help you to accomplish this task are <strong><code class="language-python">split()</code></strong>, <strong><code class="language-python">join()</code></strong>, and <strong><code class="language-python">splitlines()</code></strong>.</p>
+
+<h5 id="split-a-string" style="text-align: center;">Split a string</h5>
+
+<p>The <strong><code class="language-python">split()</code></strong> method divides a string into substrings by a <strong>separator</strong>. If the separator isn't given, whitespace is used as a default. The method returns a <strong>list</strong> of all the substrings and, notably, the separator itself is not included in any of the substrings.</p>
+
+<pre><code class="language-python"># split example
+definition = input()  # 'Coin of the realm is the legal money of the country' 
+
+definition.split()
+# ['Coin', 'of', 'the', 'realm', 'is', 'the', 'legal', 'money', 'of', 'the', 'country']
+
+definition.split("legal")
+# ['Coin of the realm is the ', ' money of the country']</code></pre>
+
+<p>You can also specify how many times the split is going to be done with the <strong><code class="language-python">maxsplit</code></strong> argument that comes after the separator. The number of elements in the resulting list will be equal to <code class="language-python">maxsplit + 1</code>.</p>
+
+<p>If the argument isn't specified, all possible splits are made.</p>
+
+<pre><code class="language-python"># maxsplit example
+definition = input()  # 'Coin of the realm is the legal money of the country'
+
+definition.split("of", 1)
+# ['Coin ', ' the realm is the legal money of the country']
+
+definition.split("of")
+# ['Coin ', ' the realm is the legal money ', ' the country']
+</code></pre>
+
+<p>If the separator doesn't occur in the string, then the result of the method is a list with the original string as its only element:</p>
+
+<pre><code class="language-python">definition = input()  # 'Coin of the realm is the legal money of the country'
+
+definition.split("hi!")  # wrong separator
+# ['Coin of the realm is the legal money of the country']</code></pre>
+
+<p>Thus, in all cases <strong><code class="language-python">split()</code></strong> allows us to convert a string into a list.</p>
+
+<p>It may also be useful to read input directly into several variables with <code class="language-python">split()</code>:</p>
+
+<pre><code class="language-python">name, surname = input().split()  # Forrest Gump
+
+print(name)     # Forrest
+print(surname)  # Gump</code></pre>
+
+<p>It's pretty efficient when you know the exact number of input values. In case you don't, it's likely to result in <code class="language-python">ValueError</code> with a message telling you either that there are too many values to unpack or not enough of them. So keep that in mind!</p>
+
+<h5 id="join-a-list" style="text-align: center;">Join a list</h5>
+
+<p>The <strong><code class="language-python">join()</code></strong> method is used to create a string out of a collection of strings. However, its use has a number of limitations. First, the argument of the method must be an <strong>iterable object</strong> with strings as its elements. And second, the method must be applied to a <strong>separator</strong>: a string that will separate the elements in a resulting string object. See below the examples of that:</p>
+
+<pre><code class="language-python">word_list  = ["dog", "cat", "rabbit", "parrot"]
+
+" ".join(word_list)  # "dog cat rabbit parrot"
+"".join(word_list)  # "dogcatrabbitparrot"
+"_".join(word_list)  # "dog_cat_rabbit_parrot"
+" and ".join(word_list)  # "dog and cat and rabbit and parrot"</code></pre>
+
+<p>Note that this method only works if the elements in the iterable object are <strong>strings</strong>. If, for example, you want to create a string of integers, it will not work. In this case, you need to convert the integers into strings explicitly or just work with strings right from the outset.</p>
+
+<pre><code class="language-python">int_list = [1, 2, 3]
+" ".join(int_list)  # TypeError!
+
+str_list = ["1", "2", "3"]
+" ".join(str_list)  # "1 2 3"
+</code></pre>
+
+<h5 id="split-multiple-lines" style="text-align: center;">Split multiple lines</h5>
+
+<p>The <strong><code class="language-python">splitlines()</code></strong> method is similar to <strong><code class="language-python">split()</code></strong>, but it is used specifically to split the string by the line boundaries. There are many escape sequences that signify the end of the line, but the <code class="language-python"><strong>split()</strong></code> method can only take one separator. So this is where the <strong><code class="language-python">splitlines()</code></strong> method comes in handy:</p>
+
+<pre><code class="language-python"># splitlines example ('\r' is a carriage return)
+long_text = 'first line\nsecond line\rthird line\r\nfourth line'
+
+long_text.splitlines()
+# ['first line', 'second line', 'third line', 'fourth line']</code></pre>
+
+<p>The method has an optional argument <strong><code class="language-python">keepends</code></strong> that has a True or False value. If <strong><code class="language-python">keepends = True</code></strong> linebreaks are included in the resulting list:</p>
+
+<pre><code class="language-python"># keepends
+long_text = 'first line\nsecond line\rthird line\r\nfourth line'
+
+long_text.splitlines(keepends=True)
+# ['first line\n', 'second line\r', 'third line\r\n', 'fourth line']</code></pre>
+
+<p>You can also use several string methods at once. It is called <strong>chaining, </strong>and it works because most of the string methods return a copy of  the original string:</p>
+
+<pre><code class="language-python"># chaining example
+sent = input()  # "Mary had a little lamb"
+new_sent = sent.lower().split()
+# ["mary", "had", "a", "little", "lamb"]</code></pre>
+
+<p>But do not get carried away, because the length of a line should be no more than 79 characters, and we definitely do not want to break PEP 8!</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>We have learned how to convert strings to lists via the <code class="language-python">split()</code> and <code class="language-python">splitlines()</code> methods, and how to get strings back from lists via the <code class="language-python">join()</code> method. As a recap, consider the following:</p>
+
+<ul>
+	<li>Splitting and joining methods <strong>do not change</strong> the original string.</li>
+	<li>If you need to use the "changed" string several times, you need to assign the result of the respective method to a variable.</li>
+	<li>If you need to use this result only once, you can work with it on spot, for example, <code class="language-python">print()</code> it.</li>
+	<li>There are a lot of parameters in string methods. You can check the <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://docs.python.org/3/library/stdtypes.html#str" rel="noopener noreferrer nofollow">documentation</a> if you need to fine-tune your program.</li>
+</ul>

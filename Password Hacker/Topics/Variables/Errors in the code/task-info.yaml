@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    ost = Happy
+    print(type_of(0st))
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/11111#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Fri, 29 Jul 2022 01:17:53 UTC
+record: -1

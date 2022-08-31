@@ -1,0 +1,76 @@
+<h2>Basic data types</h2>
+<p>Every <em>data object</em> (a variable or a constant) has a type that describes how to keep it in memory, which operations can be applied to this object and how to compute them.</p>
+
+<p>A real-world analogy of types may be biological species or any other abstract attribute shared among specific objects. All the dogs you've seen have type <em>dog</em>, but each of them is an individual object. Thinking about a <em>dog</em> as a type you can assume some operations available, for example, a dog can bark.</p>
+
+<p>In this topic, we will consider only a few of the simplest data types that are commonly used in programming practice.</p>
+
+<h5 id="strings" style="text-align: center;">Strings</h5>
+
+<p>Whenever you want to work with some kind of textual information in your program, you'll have to work with <strong>strings</strong>. The string type is called <code class="language-python">str</code>. Strings are extremely common and useful in Python. String literals may be delimited using either single or double quotes.</p>
+
+<ul>
+	<li>Examples of strings in double quotes:</li>
+</ul>
+
+<pre><code class="language-python">print("")               # empty string
+print("string")         # one word
+print("Hello, world!")  # a sentence</code></pre>
+
+<ul>
+	<li>Examples of strings in single quotes:</li>
+</ul>
+
+<pre><code class="language-python">print('a')                   # single character
+print('1234')                # a sequence of digits
+print('Bonjour, le monde!')  # a sentence</code></pre>
+
+<p>In a real program, a string can represent an email of a person or an organization.</p>
+
+<pre><code class="language-python">print('hello@hyperskill.org')  # printing an email
+</code></pre>
+
+<p>As you can see, strings are very easy to use!</p>
+
+<h5 id="numerical-types" style="text-align: center;">Numerical types</h5>
+
+<p>Numbers are the most important thing for any programmer. There is hardly any serious program you can write without using numbers, so let's discuss some basic <strong>numerical types</strong>:</p>
+
+<ul>
+	<li><code class="language-python">int</code><strong> (signed integers)</strong>. Called integers or ints, they are whole numbers (positive, negative, or zero), having no decimal point;</li>
+	<li><code class="language-python">float</code><strong> (floating-point numbers)</strong>. Called floats, they represent real numbers and have a decimal point.</li>
+</ul>
+
+<p>You can start working with a number by just printing it out.</p>
+
+<pre><code class="language-python">print(11)    # prints 11
+print(11.0)  # prints 11.0</code></pre>
+
+<p>Even though <code class="language-python">11</code> and <code class="language-python">11.0</code> are the same number, the former is an integer, and the latter is a float. The simplest way to distinguish them is that floats have a <strong>decimal point</strong> and integers don't. Pay attention!</p>
+
+<p>You can also use negative numbers as well as zeroes:</p>
+
+<pre><code class="language-python">print(0)      # prints 0
+print(-5)     # prints -5
+print(-1.03)  # prints -1.03</code></pre>
+
+<p>Integer numbers can be used to count things in the real world while floating-point numbers are a good choice for statistical and scientific calculations.</p>
+
+<h5 id="printing-types" style="text-align: center;">Printing types</h5>
+
+<p>We also have a way to clearly demonstrate types of different objects using the <code class="language-python">type()</code> function which is a part of Python.</p>
+
+<pre><code class="language-python">print(type('hello'))  # &lt;class 'str'&gt;
+print(type("world"))  # &lt;class 'str'&gt;
+
+print(type(100))      # &lt;class 'int'&gt;
+print(type(-50))      # &lt;class 'int'&gt;
+
+print(type(3.14))     # &lt;class 'float'&gt;
+print(type(-0.5))     # &lt;class 'float'&gt;</code></pre>
+
+<p>As you can see from the examples above, the <code class="language-python">type()</code> function indicates the data type of a passed value after the word <em>class</em>.</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>We hope that now you have some intuition about the concept of data types. You should remember the simplest types called <code class="language-python">str</code>, <code class="language-python">int</code> and <code class="language-python">float</code> and how to write their literals. In the following topics, we will learn specific features of each of these types. If you need to know the type of an object, just print it using the <code class="language-python">type()</code> function.</p>

@@ -1,0 +1,72 @@
+<h2>Creating bytes</h2>
+<html><body><p>In general, most operations that you can perform on strings may be also performed on bytes objects. Most probably, though, the only thing you'll actually ever need to do with bytes is to simply create them from objects of other data types and then convert them back. Why do <code class="language-python">bytes</code> even exist then, you may ask? The thing is, they may be useful in dealing with relatively low-level applications, where binary data is needed. The <a href="https://docs.python.org/3/library/http.html" rel="noopener noreferrer nofollow" target="_blank">http</a> and <a href="https://docs.python.org/3/library/socket.html" rel="noopener noreferrer nofollow" target="_blank">socket</a> modules are good examples: sending and receiving data through sockets is only possible with the bytes data type. </p>
+<p>Thus, we're now going to learn how to perform the conversion of data types when it all comes to <code class="language-python">bytes</code>.</p>
+<h5 id="b-prefix">b prefix</h5>
+<p>The most obvious way to create a bytes object is to write a string with a <code class="language-python">b</code> prefix. But be careful: this works only for characters that can be encoded by a single byte, i.e., characters whose Unicode code-point lies between 0 and 255 inclusively: ASCII and extended ASCII characters. A string containing characters other than these will lead to a syntax error.</p>
+<pre><code class="language-python">hello = b'hello bytes'
+print(hello)  # b'hello bytes'
+
+chinese_hello = b'你好，世界'  # SyntaxError</code></pre>
+<p>What is more, in <em>bytes literals</em> only ASCII characters are permitted: that is, Latin alphabet, digits, and some basic punctuation characters. Other binary values (extended ASCII, with the Unicode code point between 127 and 255) must be entered into bytes literals using the appropriate escape sequence. Consider the example below:</p>
+<pre><code class="language-python">regular = b'Unicode'
+print(regular)  # b'Unicode'
+
+strange = b'Ûñïçødê'  # SyntaxError
+# if we want to have 'Ûñïçødê' in bytes, we must write:
+strange2 = b'\xdb\xf1\xef\xe7\xf8d\xea'
+# above, only 'd' remains the same because its Unicode code point equals 100 (which is less than 127)</code></pre>
+<p>It doesn't seem very convenient, right? Let's take a look at some more flexible ways of creating bytes.</p>
+<h5 id="bytes">bytes()</h5>
+<p>You can still convert such strings into bytes by means of other ways, though. The first of them is <code class="language-python">bytes()</code> function, whose arguments are the string to be converted and the name of the output encoding. </p>
+<pre><code class="language-python">chinese_hello = bytes('你好，世界', encoding='utf-8')
+print(chinese_hello)  # b'\xe4\xbd\xa0\xe5\xa5\xbd\xef\xbc\x8c\xe4\xb8\x96\xe7\x95\x8c'</code></pre>
+<p>You can approach the task of creating a bytes object from a different angle, namely, by using integers. If you need only characters whose Unicode code points lie between 0 and 255, the same function <code class="language-python">bytes()</code> can do the job. It takes a list of integers between 0 and 255 and converts them to a bytes sequence. You don't need to specify the encoding in this case:</p>
+<pre><code class="language-python">int_to_bytes = bytes([104, 105])
+print(int_to_bytes)  # b'hi'</code></pre>
+<p>However, if you put a single integer (equal to zero or greater) directly as an argument of the function <code class="language-python">bytes()</code>, you won't get any errors and you'll still create a bytes object. The difference is that it'll be a string of zero bytes, and it'll have the length equal to the specified integer. </p>
+<pre><code class="language-python">zero_bytes = bytes(4)
+print(zero_bytes)  # b'\x00\x00\x00\x00'</code></pre>
+<p>In case you want to change the data later, use the mutable counterpart of <code class="language-python">bytes()</code> — <code class="language-python">bytearray()</code>. It returns a bytearray object that has most of the methods that the bytes type has.</p>
+<p>Apart from this universal way of creating bytes objects, there are also some that are used specifically for strings or integers. More details in the next sections.</p>
+<h5 id="encode">encode()</h5>
+<p>The string method for creating bytes is called <code class="language-python">encode()</code>. It's basically the same operation as <code class="language-python">bytes()</code>, but under a different skin. The default encoding is <code class="language-python">utf-8</code>, but you can specify it, if needed. </p>
+<pre><code class="language-python">chinese_hello = '你好，世界'.encode()
+chinese_hello_enc = '你好，世界'.encode('utf-8')
+print(chinese_hello == chinese_hello_enc)  # True</code></pre>
+<p>Now that we've learned to convert strings to bytes, let's see what we can do with integers. </p>
+<h5 id="to_bytes">to_bytes()</h5>
+<p>As for conversion of any separate integer of every possible value, the integer method <code class="language-python">to_bytes()</code> can be applied. Two arguments, apart from the integer itself, are required: the number of bytes to be used for representing the integer, and the <strong>byteorder</strong>, either <code class="language-python">'little'</code> or <code class="language-python">'big'</code>, specifying the order in which the bytes should be printed: from the least significant byte to the most significant one in case of <code class="language-python">'little'</code>, vice versa for <code class="language-python">'big'</code>. If the given integer represents an ASCII character, it will be shown (like in the first example below), and if not, an encoded sequence representing the character will be printed (examples two and three).</p>
+<pre><code class="language-python">first_number = (100).to_bytes(1, byteorder='little')
+print(first_number)  # b'd'
+
+second_number = (1024).to_bytes(2, byteorder='little')
+print(second_number)  # b'\x00\x04'
+
+third_number = (1024).to_bytes(2, byteorder='big')
+print(third_number)  # b'\x04\x00'</code></pre>
+<p></p><div class="alert alert-primary">Don't forget to put the integer you are converting in parentheses. The absence of parentheses will cause a syntax error.</div><p></p>
+<p>Alright, now that we've learned how to create bytes, it's high time to learn how to "undo" them into more familiar data types!</p>
+<h5 id="decode">decode()</h5>
+<p>There are reverse procedures for converting bytes to strings and integers. For strings, these are <code class="language-python">str()</code> with an obligatory argument specifying encoding, and method <code class="language-python">decode()</code> (as with <code class="language-python">encode()</code>, the default encoding here is <code class="language-python">utf-8</code>).</p>
+<pre><code class="language-python">bye_bytes = b'bye bytes'
+hello_str = str(bye_bytes, encoding='utf-8')
+hello_another_str = bye_bytes.decode()
+print(hello_str == hello_another_str)  # True</code></pre>
+<p>Don't forget that this method only works for strings. There's something different for integers. </p>
+<h5 id="from_bytes">from_bytes()</h5>
+<p>This all is a bit more tricky with integers, since the method <code class="language-python">from_bytes()</code> should be called in a following fashion (only <code class="language-python">byteorder</code> argument is required):</p>
+<pre><code class="language-python">int_to_bytes = (1024).to_bytes(2, 'little')
+print(int_to_bytes)  # b'\x00\x04'
+
+bytes_to_int = int.from_bytes(int_to_bytes, 'little')
+print(bytes_to_int)  # 1024</code></pre>
+<p>So, make sure to use <code class="language-python">int</code> class to call this method. </p>
+<h5 id="summary">Summary</h5>
+<p>Let's sum up what we have learned in the topic:</p>
+<ul>
+<li><code class="language-python">bytes()</code> can be used both for converting strings and lists of integers to bytes, or creating strings of zero bytes</li>
+<li>a byte string can be simply created by means of writing it with <code class="language-python">b</code> prefix</li>
+<li><code class="language-python">encode()</code> is for converting strings, <code class="language-python">to_bytes()</code> serves for converting integers</li>
+<li><code class="language-python">decode()</code> can be applied for converting bytes to strings</li>
+<li><code class="language-python">from_bytes()</code> helps you to convert a bytes object to an integer.</li>
+</ul></body></html>

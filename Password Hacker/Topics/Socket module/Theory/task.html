@@ -1,0 +1,104 @@
+<h2>Socket module</h2>
+<html><body><p>In the world where the Internet helps to connect the opposite sides of the Earth, it is important to know how this connection is done. The flow of the data in the network has a direction. To allow for this directed flow, we need a start point A and an end point B, so that they, knowing the locations of each other, could open a connection by means of a certain mechanism called <strong>sockets</strong>. Although sockets usually operate "behind the scenes", hidden from our eyes by browsers and applications, right now we'll learn how they help to provide the connection between different devices within the network. </p>
+<h5 id="what-is-a-socket">What is a socket?</h5>
+<p>Here's a classic real-life analogy to explain what sockets are and how they work. Imagine<em> an information office </em>you want to visit (let it be a metaphor of, say, a website<em> </em>or a process which you establish a connection with). It is situated at a particular <em>address </em>(hostname). When you come there, you see a lot of <em>tables</em> (ports). Some of them are empty, but at the others, there are <em>consultants </em>(<strong>server sockets</strong>) who are ready to help you with your question. To get the information you want, <em>you </em>(a client socket) need to come to some of such tables, <em>start a conversation </em>(establish a connection), <em>ask your question</em> (send the request) and <em>get an answer</em> (receive the response).</p>
+<p>In formal terms, a networking <strong>socket </strong>is an interface that plays an important part in enabling the connection between two processes exchanging data. Specifically, there is a socket at each end of the connection, so it performs as an <em>endpoint</em>, and it can send the data to the other end and receive the response, if the socket on the other end sends it. Sockets at the opposite ends are not identical in their functions: one of them is a <strong>server socket</strong>, a listening socket bound to the particular address and waiting for some <strong>client socket </strong>to connect for data exchange. For the client socket to find the server and successfully connect, the client socket must as well be provided with the <em>address </em>to which the server socket is bound. This address consists of a <em>hostname </em>(IP address or an Internet domain) and a<em> port number.</em></p>
+<p>Now let's move from theory to practice and take a look at <a href="http://docs.python.org/3/library/socket.html" rel="noopener noreferrer nofollow" target="_blank">socket</a> module in Python!</p>
+<h5 id="creating-a-client-socket">Creating a client socket</h5>
+<p>Let's start with an easy one — a client socket. Keep in mind, though, that creating a client socket only makes sense when you already have something to connect to, for example, when you create a server socket and run it yourself or when you simply know the address of some listening socket you need. </p>
+<p>First of all, we need to import the module and create our socket.</p>
+<pre><code class="language-python">import socket
+
+# creating the socket
+client_socket = socket.socket()</code></pre>
+<p>To provide the socket with the address to connect to, we should create a tuple containing two elements: the first one is the hostname, the second one is the port. Remember, the hostname is always a <strong>string</strong>, while the port is an <strong>integer</strong>. So far, let's take a string '127.0.0.1' as a hostname — this is the address that allows your computer to establish a connection with itself (this address is needed when there is a server running on your computer).</p>
+<pre><code class="language-python">hostname = '127.0.0.1'</code></pre>
+<p>As a port, we can use any number in the range from 0 to 65535. However, usually, only numbers starting from 1024 are chosen, since ports from 0 to 1023 are system ones. </p>
+<pre><code class="language-python"># let's choose the number 9090 for our port 
+port = 9090</code></pre>
+<p>Then we combine these two parts into a single tuple.</p>
+<pre><code class="language-python">address = (hostname, port)</code></pre>
+<p>The next step is to establish a connection to the given address. This can be done with the help of <code class="language-python">connect()</code> method of the socket we've created. </p>
+<pre><code class="language-python">client_socket.connect(address)</code></pre>
+<p>Now let's see what we can do with our socket next. </p>
+<h5 id="sending-data">Sending data</h5>
+<p>If the connection is successful, nothing prevents us from finally sending our data to the server socket. <code class="language-python">send()</code> method is what we need for that.</p>
+<p></p><div class="alert alert-primary">An important note: what you send through your socket should be in binary format. So, whatever data you want to submit, make sure you've converted it to <code class="language-python">bytes</code> data type first. </div><p></p>
+<pre><code class="language-python">data = 'Wake up, Neo'
+# converting to bytes
+data = data.encode()
+# sending through socket
+client_socket.send(data)</code></pre>
+<p></p><div class="alert alert-primary">Note also that you can't send an empty byte string through a socket. It only happens automatically when you close the connection.</div><p></p>
+<p>Usually we want not only to submit our data, but also to receive the server's response to it, since it may contain valuable data (for example, if you send some inquiry to the server, the server socket sends you back the results of the search). Let's see how this is done!</p>
+<h5 id="receiving-data">Receiving data</h5>
+<p>We can receive the response of the server socket with <code class="language-python">recv()</code> method. <code class="language-python">recv()</code> requires a buffer size as an argument — an integer argument specifying the maximum number of bytes to be received at once. The returned response of the server is also always in binary format, so you may want to convert it back to a string. </p>
+<pre><code class="language-python">response = client_socket.recv(1024)
+# decoding from bytes to string
+response = response.decode()
+print(response)</code></pre>
+<p>We can repeat the process of sending-receiving the data if needed. Once we're done, we simply end the connection with <code class="language-python">close()</code> method. </p>
+<pre><code class="language-python">client_socket.close()</code></pre>
+<p>So, we've gone through the main stages of the socket's life. Let's recall them all once again.</p>
+<h5 id="overview">Overview</h5>
+<p>Here you can take a final look at the whole code.</p>
+<pre><code class="language-python">import socket
+
+# creating the socket
+client_socket = socket.socket()
+hostname = '127.0.0.1'
+port = 9090
+address = (hostname, port)
+
+# connecting to the server
+client_socket.connect(address)
+
+data = 'Wake up, Neo'
+# converting to bytes
+data = data.encode()
+
+# sending through socket
+client_socket.send(data)
+
+# receiving the response
+response = client_socket.recv(1024)
+
+# decoding from bytes to string
+response = response.decode()
+print(response)
+
+client_socket.close()</code></pre>
+<p>If you run this code just like that, without creating a server socket first, don't expect it to work. You'll get the <code class="language-python">ConnectionRefusedError</code>: this means that connection has failed because we tried to connect to the address that no server socket listens to. This is logical since hostname '127.0.0.1' indicates that we connect to our own computer — and there's no server socket running. To fix the error, you should bind a server socket to the same address and run it. </p>
+<p>So, as we see, the structure of a client socket is very simple: connect, send the data, receive the answer, end the discussion by closing the socket. The things are a bit more complicated with server sockets, but that's a story for another topic.</p>
+<h5 id="with-as">with ... as</h5>
+<p>Sockets, just like file objects, can be used as context managers. In practice, this means that we can simplify the process of ending the connection by using the <code class="language-python">with</code> keyword. Let's take a look at the same socket we've been working with, but used in this construction:</p>
+<pre><code class="language-python">import socket
+
+# working with a socket as a context manager
+with socket.socket() as client_socket:
+    hostname = '127.0.0.1'
+    port = 9090
+    address = (hostname, port)
+
+    client_socket.connect(address)
+
+    data = 'Wake up, Neo'
+    data = data.encode()
+
+    client_socket.send(data)
+
+    response = client_socket.recv(1024)
+
+    response = response.decode()
+    print(response)
+</code></pre>
+<p>As you can see, not much has changed but here we can be sure that the connection will be safely closed and no errors will arise!</p>
+<h5 id="summary">Summary</h5>
+<p>Let's go over the main points of the topic:</p>
+<ul>
+<li>sockets are endpoints of the connection between two processes</li>
+<li>there are server sockets listening to particular ports, and client sockets that initiate the connection and send the data first</li>
+<li>a socket needs an address to bind or connect to, and it consists of a hostname and a port number</li>
+<li>the data sent through sockets must be <code class="language-python">bytes</code></li>
+<li>the main steps of the client socket performance involve connection, sending the data, receiving the response and closing the connection</li>
+</ul></body></html>

@@ -1,0 +1,85 @@
+<h2>Context manager</h2>
+<html><body><p>We live in a world of limited resources, so one of the most important skills in life (and in programming) is knowing how to manage them. We cannot teach you how to manage your resources in real life, but we can help you effectively manage resources in Python with the help of <strong>context managers. </strong></p>
+<h5 id="when-to-use-context-managers" style="text-align: center;">When to use context managers</h5>
+<p>The main purpose of context managers is, as you might've guessed, resource management. What does this mean in practice? The most common example is opening files. Opening a file consumes a limited resource called a <strong>file descriptor. </strong>If you try to open too many files at once, depending on your operating system, you may get an error or completely crash your program. </p>
+<pre><code class="language-python"># don't try this at home!
+n_files = 1000000
+files = []
+
+for i in range(n_files):
+    files.append(open('test.txt'))
+
+# OSError: [Errno 24] Too many open files</code></pre>
+<p>To avoid file descriptor <strong>leakage </strong>(as presented above), we need to close the files after we're done with them. Closing the files is done with the <code class="language-python">close()</code> method.</p>
+<pre><code class="language-python">n_files = 1000000
+files = []
+
+for i in range(n_files):
+    f = open('test.txt')
+    files.append(f)
+    f.close()
+
+# no errors, all correct!</code></pre>
+<p>This works perfectly fine if we have relatively simple programs. However, as our programs or our file manipulations get more complicated, determining when and how to close the files may get tricky. In other programming languages, a common way to deal with this is a <code class="language-python">try ... except ... finally</code> block. In Python, we can use a context manager. Basically, the context manager guarantees that all necessary operations will take place at the right time. In the example with opening files, the context manager will close the file and release the file descriptor when we are done working with the file.</p>
+<h5 id="with-as" style="text-align: center;">with ... as</h5>
+<p>Now that we know why we need to use context managers, let's learn how to do that. A context manager is introduced by a <code class="language-python">with</code> keyword followed by the context manager itself and the name of the variable. The basic syntax is the following:</p>
+<pre><code class="language-python"># invoking a context manager
+with statement as variable_name:
+    ...</code></pre>
+<p><code class="language-python">statement</code> here is anything that acts like a context manager (meaning, it supports specific context manager methods). It can be either a custom made context manager or Python's internal one. Below are some examples of context managers you may come across in Python. You don't need to know what they are now. This is just additional information you may find interesting:</p>
+<ul>
+<li>File objects (and other streams like <code class="language-python">io.StringIO</code> or <code class="language-python">io.BytesIO</code>);</li>
+<li>Sockets;</li>
+<li>Locks and semaphores in the <code class="language-python">threading</code> module;</li>
+<li>Database connections;</li>
+<li>Mock objects.</li>
+</ul>
+<p>We can also nest this construction:</p>
+<pre><code class="language-python"># nested context manager
+with statement1 as var1:
+    with statement2 as var2:
+        # and so on
+        ...</code></pre>
+<p>Most commonly, <code class="language-python">with ... as</code> statement is used when working with files. Let's see how we can do that.</p>
+<h5 id="working-with-files" style="text-align: center;">Working with files</h5>
+<p>A file object that we get when we use the <code class="language-python">open()</code> function acts as a context manager, so we can use it as the <code class="language-python">statement</code> part of the code. This is how it can be done:</p>
+<pre><code class="language-python">with open('test.txt') as f:
+    # work with the file
+    ...</code></pre>
+<p>As you can see, it is very simple! It also allows us to shorten our code a little since we don't need to explicitly close the file at the end.</p>
+<p></p><div class="alert alert-warning">Note that you actually can explicitly close the file within the <code class="language-python">with ... as</code> statement, it won't be an error. You just don't need to!</div><p></p>
+<p>Coming back to the situation with a million files, this is how it looks if we use context manager:</p>
+<pre><code class="language-python">n_files = 1000000
+files = []
+
+for i in range(n_files):
+    with open('test.txt') as f:
+        files.append(f)
+
+# OK!</code></pre>
+<p>Now, let's look at a more realistic example. Suppose, we have a file with a list of movies directed by Quentin Tarantino named <em>tarantino.txt</em>. We want to read this file and print the titles:</p>
+<pre><code class="language-python">with open('tarantino.txt', 'r', encoding='utf-8') as f:
+    for line in f:
+        # we use strip() to get rid of newline symbols
+        print(line.strip())
+</code></pre>
+<p>We'll get the following output:</p>
+<pre><code class="language-no-highlight">Reservoir Dogs
+Pulp Fiction
+Jackie Brown
+Kill Bill: Volume 1
+Kill Bill: Volume 2
+Grindhouse: Death Proof
+Inglorious Basterds
+Django Unchained
+The Hateful Eight
+Once Upon a Time in Hollywood</code></pre>
+<p>Now, imagine that we want to process these titles, say, make them all lowercase, and have it saved to a file. Here's how it can be done:</p>
+<pre><code class="language-python">with open('tarantino.txt', 'r', encoding='utf-8') as in_file, \
+     open('tarantino_lowercase.txt', 'w', encoding='utf-8') as out_file:
+    for line in in_file:
+        out_file.write(line.lower())</code></pre>
+<p>The file<em> tarantino_lowercase.txt </em>that we've created in the process, will contain the titles of Tarantino movies written in lowercase. </p>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>In this topic, we've learned about context managers, special structures used for effective managing of resources. Basically, context managers help make sure that all necessary operations have been carried out. Context managers are usually introduced by a <code class="language-python">with ... as</code> statement.</p>
+<p>In practice, you'll most commonly encounter this in opening files. However, you can also create custom context managers for your own purposes, but this is a skill for another topic!</p></body></html>

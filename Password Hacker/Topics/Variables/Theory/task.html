@@ -1,0 +1,41 @@
+<h2>Variables</h2>
+<html><body><p>You can use a programming language like Python to do calculations or to work with constant values like strings. Is it enough for you, though? When writing real programs, you usually need to <strong>store values</strong> or evaluation results in computer memory.</p>
+<h5 id="what-is-a-variable" style="text-align: center;">What is a variable?</h5>
+<p><strong>Variable</strong> is a named place where you can store some value and access the value later. Imagine a <em>box</em> where you keep something. That's a variable.</p>
+<p>For example, you calculate something and would like to reuse the formula for some other numbers. In this case, you operate only these "boxes".</p>
+<p>In general, it's a good practice to give a variable a name that describes its content.</p>
+<h5 id="defining-a-variable-and-assigning-values" style="text-align: center;">Defining a variable and assigning values</h5>
+<p>You can keep almost anything in variables just by assigning the new value for a named variable with an equal sign. Also, following <a href="https://www.python.org/dev/peps/pep-0008/#whitespace-in-expressions-and-statements" rel="noopener noreferrer nofollow" target="_blank">PEP 8</a>, one space before and after the assignment sign is considered good practice.</p>
+<pre><code class="language-python">day_of_week = "Monday"</code></pre>
+<p>Now you have a string type value <code class="language-python">"Monday"</code> stored in computer memory. You can retrieve the value by calling the variable name.</p>
+<pre><code class="language-python">print(day_of_week)  # Monday</code></pre>
+<p>Now, <code class="language-python">day_of_week</code> stores a value of the <code class="language-python">str</code> type.</p>
+<pre><code class="language-python">print(type(day_of_week))  # &lt;class 'str'&gt;</code></pre>
+<p>You can always assign a new value to a defined variable:</p>
+<pre><code class="language-python">day_of_week = "Tuesday"</code></pre>
+<p>Now, you will retrieve another value:</p>
+<pre><code class="language-python">print(day_of_week)  # Tuesday</code></pre>
+<p>It is possible to assign the value of one variable to another variable:</p>
+<pre><code class="language-python">a = 10
+b = a  # b is 10</code></pre>
+<p>If you haven't defined a variable within the scope of your code, you'll see an error:</p>
+<pre><code class="language-python">print(month_name)  # NameError: name 'month_name' is not defined</code></pre>
+<p>Python allows you to assign values of different types to the same variable. Let's assign the string name of a month to a variable and print its type.</p>
+<pre><code class="language-python">month = "December"
+print(type(month))  # &lt;class 'str'&gt;</code></pre>
+<p>Now, let's assign the number of this month to the variable and print its type again.</p>
+<pre><code class="language-python">month = 12
+print(type(month))  # &lt;class 'int'&gt;</code></pre>
+<p>This works because Python is a language with <strong>dynamic typing.</strong></p>
+<p></p><div class="alert alert-primary">Please, do not overuse it! If your code is quite long, you might forget that you have changed the type. And this is the breeding ground for errors!</div><p></p>
+<h5 id="naming-rules" style="text-align: center;">Naming rules</h5>
+<p>As we mentioned above, each variable has a specific name that distinguishes it from other variables. There are some rules for naming variables that you should follow:</p>
+<ul>
+<li>Names are case-sensitive (<code class="language-python">month</code> is not the same as <code class="language-python">Month</code>);</li>
+<li>A name begins with a letter or an underscore, followed by letters, digits, and underscores (e.g. <code class="language-python">user_name</code>, <code class="language-python">score1</code>, <code class="language-python">_count</code>);</li>
+<li>A name cannot start with a digit (for example, <code class="language-python">2q</code> is not a valid name);</li>
+<li>A name must not be a <a href="https://www.w3schools.com/python/python_ref_keywords.asp" rel="noopener noreferrer nofollow" target="_blank">keyword</a>.</li>
+</ul>
+<p></p><div class="alert alert-warning">Do not break these rules; otherwise, your program will not work.</div><p></p>
+<h5 id="conclusion">Conclusion</h5>
+<p>To sum up, in this topic, we've learned what a variable is in Python, how to define them and assign values, and what the rules of naming them are. Hopefully, this new knowledge will be of great service to you on your way to learning Python! </p></body></html>

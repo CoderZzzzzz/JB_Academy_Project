@@ -1,0 +1,45 @@
+<h2>Taking input</h2>
+<html><body><p>Sometimes programs need to interact with users, either to receive some data or to deliver some sort of result. And that's when the <code class="language-python">input()</code><strong> </strong>function steals the show.</p>
+<h5 id="reading-input-from-a-user" style="text-align: center;">Reading input from a user</h5>
+<p>The input data we want to get is nothing but some value entered by the user. The <code class="language-python">input()</code> function reads this value and returns it in a program as a string. For example, the following program reads the user name and prints a greeting.</p>
+<pre><code class="language-python">user_name = input()
+print('Hello, ' + user_name)</code></pre>
+<p>In the first line, the program will wait for the user to enter something as input. We'll assign this input to a variable to save it for later. In the second line, the program appends the entered name to the end of the <code class="language-python">'Hello, '</code> string and prints the whole phrase as a result.</p>
+<p>If a user enters <code class="language-python">Sauron</code>, this program prints:</p>
+<pre><code class="language-python">Hello, Sauron</code></pre>
+<p>So, your program prints a result that depends on the user's input (name).</p>
+<h5 id="clear-messages" style="text-align: center;">Clear messages</h5>
+<p>It is highly recommended to state clearly what type of input we expect from our users. To do so, the <code class="language-python">input()</code> function may take an optional argument, that is, a message:</p>
+<pre><code class="language-python">user_name = input('Please, enter your name: ')
+print('Hello, ' + user_name)</code></pre>
+<p>The program starts, the user sees the message, enters their name, and gets the result as follows:</p>
+<pre><code class="language-no-highlight">Please, enter your name: Sauron
+Hello, Sauron</code></pre>
+<p>Another way to do this is to print the message separately: </p>
+<pre><code class="language-python">print('Enter your name: ')
+user_name = input()
+print('Hello, ' + user_name)</code></pre>
+<p>There's no big difference actually: in the previous example, the input will be printed in the same line as the message, while in this case it will be written in the next line. So, you may choose whatever you like.</p>
+<p></p><div class="alert alert-warning">Although it is recommended to print messages for users, avoid them in our educational programming challenges, otherwise your code may not pass our tests.</div><p></p>
+<h5 id="important-details" style="text-align: center;">Important details</h5>
+<p>Let's dig into some details.</p>
+<p>First of all, how long can the user's input be, and how does the program understand that the person entered everything they wanted? Here's a thing about the <code class="language-python">input()</code> function: as soon as the program has started executing this function, it stops and waits for the user to enter some value and <strong>press Enter</strong>. That also means that if there's no input from the user, the program will not execute any further.</p>
+<p>What else should you remember? Well, this: any value you enter, the function sees as a <strong>string</strong>. It doesn't matter if you enter digits or letters, the input will be converted to a string.</p>
+<p>If you want a number to be a <strong>number</strong>, you should write it explicitly:</p>
+<pre><code class="language-python">print("What's your favorite number?")
+value = int(input())  # now value keeps an integer number</code></pre>
+<p>However, be careful: in these circumstances, if a user enters a non-integer value, an <code class="language-python">Error</code> will appear.</p>
+<p>To read several inputs, you should call the function more than once:</p>
+<pre><code class="language-python">day = int(input())  # 4
+month = input()     # October</code></pre>
+<p>Brilliant! Why this date? It's simple:</p>
+<pre><code class="language-python">print('Cinnamon roll day is celebrated on', month, day)
+# Cinnamon roll day is celebrated on October 4</code></pre>
+<h5 id="conclusion">Conclusion</h5>
+<p>Congratulations, now you know how to work with <code class="language-python">input()</code>, that is, a function that helps you interact with the user. Believe us, this is something you will definitely appreciate when programming. Here's what you've learned:</p>
+<ul>
+<li>there is no limit for the input data length, the function will be waiting until the user presses Enter;</li>
+<li>you can add a message to the user along with the input request; </li>
+<li>the function interprets any entered value as a string;</li>
+<li>the input data can be later converted to the data type you need.</li>
+</ul></body></html>

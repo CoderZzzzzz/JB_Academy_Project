@@ -1,0 +1,89 @@
+<h2>List</h2>
+<p>In your programs, you often need to group several elements in order to process them as a single object. For this, you will need to use different collections. One of the most important and useful collections in Python is a <strong>list</strong>.</p>
+
+<ul>
+</ul>
+
+<ul>
+</ul>
+
+<h5 id="creating-and-printing-lists" style="text-align: center;">Creating and printing lists</h5>
+
+<p>Look at a simple list that stores several names of dogs' breeds:</p>
+
+<pre><code class="language-python">dog_breeds = ['corgi', 'labrador', 'poodle', 'jack russell']
+print(dog_breeds)  # ['corgi', 'labrador', 'poodle', 'jack russell']</code></pre>
+
+<p>In the first line, we use square brackets to create a list that contains four elements and then assign it to the <code class="language-python">dog_breeds</code> variable. In the second line, the list is printed through the variable's name. All the elements are printed in the same order as they were stored in the list because lists are <strong>ordered</strong>.</p>
+
+<p>Here is another list that contains five integers:</p>
+
+<pre><code class="language-python">numbers = [1, 2, 3, 4, 5]
+print(numbers)  # [1, 2, 3, 4, 5]</code></pre>
+
+<p>Another way to create a list is to invoke the <code class="language-python">list</code> function. It is used to create a list out of an <strong>iterable</strong> object: that is, a kind of object where you can get its elements one by one. The concept of iterability will be explained in detail further on, but let's look at the examples below:</p>
+
+<pre><code class="language-python">list_out_of_string = list('danger!')
+print(list_out_of_string)  # ['d', 'a', 'n', 'g', 'e', 'r', '!']
+
+list_out_of_integer = list(235)  # TypeError: 'int' object is not iterable</code></pre>
+
+<p>So, the <code class="language-python">list</code> function creates a list containing each element from the given iterable object. For now, remember that a <strong>string </strong>is an example of an <strong>iterable </strong>object, and an <strong>integer </strong>is an example of a <strong>non-iterable</strong> object. A <strong>list </strong>itself is also an <strong>iterable </strong>object.</p>
+
+<p>Let's also note the difference between the <code class="language-python">list</code> function and creating a list using square brackets:</p>
+
+<pre><code class="language-python">multi_element_list = list('danger!')
+print(multi_element_list)  # ['d', 'a', 'n', 'g', 'e', 'r', '!']
+
+single_element_list = ['danger!']
+print(single_element_list)  # ['danger!']</code></pre>
+
+<p>The square brackets and the <code class="language-python">list</code> function can also be used to create <strong>empty lists</strong> that do not have elements at all.</p>
+
+<pre><code class="language-python">empty_list_1 = list()
+empty_list_2 = []</code></pre>
+
+<p>In the following topics, we will consider how to fill empty lists.</p>
+
+<h5 id="features-of-lists" style="text-align: center;">Features of lists</h5>
+
+<p>Lists can<strong> </strong>store <strong>duplicate values</strong> as many times as needed.</p>
+
+<pre><code class="language-python">on_off_list = ['on', 'off', 'on', 'off', 'on']
+print(on_off_list)  # ['on', 'off', 'on', 'off', 'on']</code></pre>
+
+<p>Another important thing about lists is that they can contain <strong>different types</strong> of elements, including other lists. So there are neither restrictions, nor fixed list types, and you can add to your list any data you want, like in the following example:</p>
+
+<pre><code class="language-python">different_objects = ['a', 1, 'b', 2, [1, 2, 3]]</code></pre>
+
+<h5 id="length-of-a-list" style="text-align: center;">Length of a list</h5>
+
+<p>Sometimes you need to know how many elements are there in a list. There is a built-in function called <code class="language-python">len</code> that can be applied to any<strong> iterable</strong> object, and it returns simply the <strong>length</strong> of that object.</p>
+
+<p>So, when applied to a list, it returns the number of elements in that list.</p>
+
+<pre><code class="language-python">numbers = [1, 2, 3, 4, 5]
+print(len(numbers))  # 5
+
+empty_list = list()
+print(len(empty_list))  # 0
+
+single_element_list = ['danger!']
+print(len(single_element_list))  # 1
+
+multi_elements_list = list('danger!')
+print(len(multi_elements_list))  # 7</code></pre>
+
+<p>In the example above, you can see how the <code class="language-python">len()</code> function works. Again, pay attention to the difference between <code class="language-python">list()</code> and <code class="language-python">[]</code> as applied to strings: it may not result in what you expected.</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>As a recap, we note that lists are:</p>
+
+<ul>
+	<li><strong>ordered</strong>, i.e. each element has a fixed position in a list;</li>
+	<li><strong>iterable</strong>, i.e. you can get their elements one by one;</li>
+	<li>able to store <strong>duplicate values</strong>;</li>
+	<li>able to store <strong>different types of elements;</strong></li>
+	<li>besides being used for creating an empty list, the<strong> </strong><code class="language-python">list()</code> function also can be used to make a list out of an iterable object.</li>
+</ul>

@@ -1,0 +1,23 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: It sorts data in an ascending or descending order before conversion, so the
+    bytes would be ordered too.
+- text: It specifies the display mode. In case of <code>'little'</code>, only ASCII-characters
+    are printed, 'big' allows to show any character.
+- text: It allows to convert characters to lower- and uppercase (<code>'little'</code>
+    and <code>'big'</code> respectively) before conversion to bytes.
+- text: 'It specifies the order in which the bytes should be printed: from the least
+    significant byte to the most significant one in case of ''little'', and vice versa
+    for ''big''.'
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15483#comment
+status: Solved
+record: -1
+local_check: false

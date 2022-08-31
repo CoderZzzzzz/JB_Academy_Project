@@ -1,0 +1,50 @@
+<h2>Exceptions</h2>
+<html><body><p><span style="color: #000000;">Imagine the situation: your code is syntactically correct and beautiful, it is being executed without any trouble. Great! But wait, when you continue writing the program, something else appears in the messages from Python! And the program is only partially executed. Sounds familiar? In this topic, we'll finally try to figure out what is going on when something like this happens.</span></p>
+<h5 id="a-different-type-of-error"><span style="color: #000000;">A different type of error</span></h5>
+<p><span style="color: #000000;">Some errors in your code will not prevent the program from running. It will only crash while trying to execute a “broken” line: a line with an error called an </span><span style="color: #000000;"><strong>exception</strong>. Thus, exceptions are the errors detected during the program </span><span style="color: #000000;"><strong>execution</strong> (interpretation), whereas syntax errors are those detected during <strong>compiling</strong><span style="color: #000000;"> </span>the program into byte-code.</span><span style="color: #000000;"> </span></p>
+<p><span style="color: #000000;">Let's examine the following piece of code:</span></p>
+<pre><code class="language-python">print("I will be the first")
+print("And I will be the second")
+a = 0
+b = 5
+print("Here comes an error!..")
+print(b / a)
+print("I won't be printed")
+</code></pre>
+<p><span style="color: #000000;">Indeed, we can see that some of the <samp>print</samp>s worked, while others (<code class="language-python">print()</code> which contains the error, and yet another one after it) didn’t. Thus, all the code </span><span style="color: #000000;"><strong>before</strong></span><span style="color: #000000;"> </span><span style="color: #000000;">the exception is executed properly, and everything </span><span style="color: #000000;"><strong>after </strong></span><span style="color: #000000;">is not. </span></p>
+<pre><code class="language-no-highlight">I will be the first
+And I will be the second
+Here comes an error!..
+Traceback (most recent call last):
+  File  "PATH/TO/YOUR/SCRIPT.py", line 6, in &lt;module&gt;
+    print(b / a)
+ZeroDivisionError: division by zero</code></pre>
+<p><span style="color: #000000;">You already know that the most important and informative part of an error in Python is the last line. It contains a clear and distinct description of the error Python has encountered. In this case, we can see </span><span style="color: #000000;"><strong>ZeroDivisionError</strong></span><span style="color: #000000;">, which is quite informative, right? One can’t divide by zero.</span></p>
+<p style="font-variant: normal;"><span style="color: #000000;">Similar to syntax errors, nearly all the built-in Python exceptions have an <strong>associated value</strong> that indicates the detailed cause of the error. Exceptions are not unconditionally fatal: later you will learn how to handle them.</span></p>
+<h5 id="most-common-exceptions-for-learners" style="font-variant: normal; text-align: center;"><span style="color: #000000;">Most common exceptions for learners</span></h5>
+<p style="font-variant: normal;"><span style="color: #000000;">Perhaps, the most common exceptions people see while they are still learning Python are <code class="language-python">NameError</code>, <code class="language-python">TypeError</code> and <code class="language-python">ValueError</code>.</span></p>
+<p><code class="language-python"><span style="color: #000000;">NameError</span></code><span style="color: #000000;"> </span><span style="color: #000000;">is usually raised when you haven’t defined your variable before using it or you have done it incorrectly.</span></p>
+<p><span style="color: #000000;"></span></p><div class="alert alert-warning">Remember that variables are <span style="color: #000000;"><strong>case-sensitive</strong></span><span style="color: #000000;"> </span><span style="color: #000000;">in Python and they’ve got to be defined </span><span style="color: #000000;"><strong>before usage</strong></span><span style="color: #000000;">.</span></div><p></p>
+<p><span style="color: #000000;">Consider this piece of code:</span></p>
+<pre><code class="language-python">print(a + b)
+a = 0
+b = 5</code></pre>
+<p style="font-variant: normal;"><span style="color: #000000;">It will cause the following exception:</span></p>
+<pre><code class="language-python"><span style="color: #ff0000;">NameError: name 'a' is not defined</span></code></pre>
+<p style="font-variant: normal;"><span style="color: #000000;">The associated value sometimes tells you the exact problem, so it's going to be really easy to fix it.</span></p>
+<p><code class="language-python"><span style="color: #000000;">TypeError</span></code><span style="color: #000000;"> </span><span style="color: #000000;">is raised when an operation or function is applied to an object of an </span><span style="color: #000000;"><strong>inappropriate type</strong></span><span style="color: #000000;">. The associated value is a </span><span style="color: #000000;">string</span><span style="color: #000000;"> </span><span style="color: #000000;">giving details about the particular type mismatch. A common case for it is when you’re trying to perform arithmetic calculations on several unsupported operand types: </span></p>
+<pre><code class="language-python">print("15" + 2)</code></pre>
+<p style="font-variant: normal;"><span style="color: #000000;">Here we’re trying to sum up a string and an integer, which will cause an exception again:</span></p>
+<pre><code class="language-python"><span style="color: #ff0000;">TypeError: unsupported operand type(s) for +: 'int' and 'str'</span></code></pre>
+<p><code class="language-python"><span style="color: #000000;">ValueError</span></code><span style="color: #000000;"> </span><span style="color: #000000;">can be raised if you’re trying to use a variable of the correct type, but with an inappropriate </span><span style="color: #000000;"><strong>value</strong></span><span style="color: #000000;">. For example, it's the case when you are trying to make an integer of a string, which has no integer value:</span></p>
+<pre><code class="language-python">print(int("five"))
+
+<span style="color: #ff0000;">ValueError: invalid literal for int() with base 10: 'five'</span></code></pre>
+<p style="font-variant: normal;"><span style="color: #000000;">If you have any trouble trying to understand what the error is, you can always copy-paste the last line of a traceback and google it. Moreover, you're strongly encouraged to do so, as 99% of the troubles that the learners face have already been solved on specialized forums.</span></p>
+<h5 id="summary" style="font-variant: normal; text-align: center;"><span style="color: #000000;">Summary</span></h5>
+<p style="font-variant: normal;">We've learned the exception basics, so now you are familiar with this concept and some of the most common exceptions in Python. Here's a recap:</p>
+<ul>
+<li style="font-variant: normal;"><span style="color: #000000;">A program will not be compiled and executed if there are <strong>syntax errors</strong> in it.</span></li>
+<li style="font-variant: normal;"><span style="color: #000000;">On the other hand, <strong>exceptions </strong>don’t prevent a program from being compiled and run, but as soon as the line with an exception is being executed, the program crashes.</span></li>
+<li style="font-variant: normal;"><span style="color: #000000;">There are certain tools to handle exceptions and even to raise them on your own, and soon you will learn more about it.</span></li>
+</ul></body></html>

@@ -1,0 +1,86 @@
+<h2>Bytes basics</h2>
+<p>As we already know, a <code class="language-python">str</code> object is a sequence of characters. More than that, these are not just "some" characters: these are Unicode characters. Now it's time to introduce <code class="language-python">bytes</code>, a counterpart of the Python's string. As such, <code class="language-python">bytes</code> data type was introduced in Python 3, and it has a twofold nature: it represents usual strings, easily understandable by a human reader, in the form that makes them more suitable for processing by the computer.  </p>
+
+<h5 id="functions-chr-and-ord">Functions chr() and ord()</h5>
+
+<p>To demonstrate the sophisticated nature of this data type, allow us to start from afar and introduce two Python functions: <code class="language-python">ord<span style="color: #000000;">()</span></code> and <code class="language-python">chr()</code>. These are inverse functions that serve for converting Unicode characters to their respective code points — and vice versa. More precisely, <code class="language-python">ord()</code> accepts as an argument a string consisting of a single Unicode character, and returns an integer equal to the code point assigned to this character in the Unicode; <code class="language-python">chr()</code> in a similar manner allows you to convert an integer to the corresponding Unicode character.</p>
+
+<p>In the following example you can see that 'a' symbol has a Unicode code point equal to 97:</p>
+
+<pre><code class="language-python">a_character = 'a'
+a_code = ord(a_character)
+print(a_code)  # 97
+
+a_character = chr(a_code)
+print(a_character)  # 'a'</code></pre>
+
+<p>By the way, <code class="language-python">ord()</code> works behind the scenes when you perform a <strong>comparison </strong>of two strings! Let's find out more in the next section.</p>
+
+<h5 id="string-comparison">String comparison</h5>
+
+<p>In reality, that's the code points of these strings' characters that are being compared one by one. If the code point of the first character in the first string is bigger than the code point of the first character in the second string, then the first string is bigger than the second one.</p>
+
+<pre><code class="language-python">a_character = 'a'
+one_character = '1'
+print(ord(a_character))             # 97
+print(ord(one_character))           # 49
+print(a_character &gt; one_character)  # True</code></pre>
+
+<p>If the code points of the first characters are equal, the same comparison is performed between the second characters of each string. This process continues until some respective characters are found not to be equal, or until one (or both) of the strings ends. </p>
+
+<pre><code class="language-python">a_character = 'a'
+print(ord(a_character))    # 97
+b_character = 'b'
+print(ord(b_character))    # 98
+aa_line = a_character * 2  # 'aa'
+ab_line = a_character + b_character  # 'ab'
+print(aa_line &lt; ab_line)   # True
+# because the first characters of the strings are equal and the code point 
+# of the second character of ab_line is bigger than that of aa_line</code></pre>
+
+<p>As you can see now, there's an easy way of representing string characters as numbers in Python. This is quite important since the computer doesn't know anything about Unicode and letters and symbols used by humans: to store and process information, a computer needs it to be in numeric form. The same applies to the information sent from one computer to another. </p>
+
+<p>Therefore, Python has a special data type whose purpose is to represent strings as a sequence of numbers, and this data type is called <code class="language-python">bytes</code>. Now we are ready to take a closer look!  </p>
+
+<h5 id="getting-familiar-with-bytes">Getting familiar with bytes</h5>
+
+<p>Any <code class="language-python">bytes</code>object is a sequence of integers representing single bytes. Each of these integers has a value <strong>between 0 and 255 </strong>(including 0 and 255), so there are 256 possible values, which is not arbitrary: each byte consists of 8 bits, and 2^8 is equal to 256. <code class="language-python">bytes</code> objects, as well as strings, are <strong>immutable</strong>.</p>
+
+<p>What's so peculiar about bytes? Firstly, when printed, they look like a string in quotes with a prefix <code class="language-python">b</code>. This prefix is not a part of the actual data stored in the variable: it simply designates a bytes object. All the information contained in our bytes object is printed between quotes. </p>
+
+<pre><code class="language-python">first_bytes = b'123'
+print(first_bytes)       # b'123'
+print(len(first_bytes))  # 3</code></pre>
+
+<p>Secondly, don't be misled by bytes' string-like appearance: they are only printed in the way that makes them look like usual strings, so that we, human readers, could understand more quickly what's being stored inside the object. Deep inside bytes objects are still sequences of integers, as we've stated above. </p>
+
+<pre><code class="language-python">first_bytes = b'123'
+print(first_bytes[0])  # 49
+print(first_bytes[1])  # 50
+print(first_bytes[2])  # 51</code></pre>
+
+<p>Such behavior reflects the dual nature of <code class="language-python">bytes</code>: they contain strings in the numerical form. So, they store data in a form that is suitable for the computer to read, but they are printed in a way that is more convenient for a human.</p>
+
+<p>Why is '1' equal to 49, and '2' to 50? That's where <code class="language-python">chr()</code> and <code class="language-python">ord()</code> come in. As you remember, they convert symbols to numbers and vice versa by means of the Unicode table. So, when you create a bytes object for the string '1', an integer returned by the <code class="language-python">ord()</code> function for the string '1' is actually being stored within the object. And when you print the object, a character returned by the <code class="language-python">chr()</code> function for this integer is being printed.</p>
+
+<pre><code class="language-python">one_bytes = b'1'
+one_ord = ord('1')
+print(one_bytes[0])  # 49
+print(one_ord)       # 49</code></pre>
+
+<p>But items of the bytes objects are not always printed as single characters. They only do so when their value is within a certain range: if the integer value is somewhere <strong>between 32 </strong>and <strong>126 </strong>or <strong>equal</strong> to any of these numbers, a corresponding Unicode character will be printed. Otherwise, a hexadecimal escape sequence will be used to represent this integer: it'll usually have the form like '\x01' or '\xdf', (i.e., a backslash followed by 'x' and two other symbols) with the exception of some sequences like \t, \n, that you probably see often even without using <code class="language-python">bytes</code>.</p>
+
+<pre><code class="language-python">characters = bytes([55, 255])
+print(characters)  # b'7\xff'</code></pre>
+
+<p>You must have noticed that in the last example a bytes object was created in a way differing from the ones used before. If you wish to know more about all ways of creating bytes objects, check out the next topic named <em>Creating bytes.</em></p>
+
+<h5 id="summary">Summary</h5>
+
+<ul>
+	<li>Python 3.x has immutable <code class="language-python">bytes</code> data type, used for representing strings as sequences of single bytes;</li>
+	<li><code class="language-python">bytes</code> objects consist of integers with values from 0 to 255 (inclusively);</li>
+	<li>characters of usual strings are converted to bytes by means of Unicode table that matches every character with its unique numeric code point;</li>
+	<li><code class="language-python">ord()</code> built-in function serves for converting a Unicode character to its respective code point. This function also explains the method of string comparison in Python;</li>
+	<li><code class="language-python">chr()</code> built-in function converts an integer, representing a code point in the Unicode table, to the respective character.</li>
+</ul>

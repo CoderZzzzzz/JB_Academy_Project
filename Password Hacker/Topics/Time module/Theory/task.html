@@ -1,0 +1,160 @@
+<h2>Time module</h2>
+<html><body><p>Sometimes you might want to have a time-related component in your program. For this purpose, Python has a built-in <code class="language-python">time</code> module. Let's look at what you can do with it when working on a program that prints reminders.</p>
+<h5 id="what-time-is-it">What time is it?</h5>
+<p>When we want to remind a user about something, we should also probably print the current time for them to know that the moment has actually come. To do that, we will import the module and use the <code class="language-python">gmtime()</code> function:</p>
+<pre><code class="language-python">import time
+
+current_time = time.gmtime()
+action = "to feed the cat"
+
+print(f"It's {current_time}. Time {action}.")</code></pre>
+<p>This will print:</p>
+<pre><code class="language-no-highlight">It's time.struct_time(tm_year=2020, tm_mon=9, tm_mday=16, tm_hour=13, tm_min=27, tm_sec=28, tm_wday=2, tm_yday=260, tm_isdst=0). Time to feed the cat.</code></pre>
+<p>As you can see, the result is a little different from what we may have expected, as <code class="language-python">gmtime()</code> returns a <code class="language-python">struct_time</code> object. There are at least two possible ways to deal with it. Let's take a look at the information that will help us interpret the output:</p>
+<table border="1" cellpadding="1" cellspacing="1" style="width: 500px;">
+<thead>
+<tr>
+<th style="text-align: center;">value</th>
+<th style="text-align: center;">meaning</th>
+<th style="text-align: center;">range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">tm_year</td>
+<td style="text-align: center;">year</td>
+<td style="text-align: center;">(for example, 2020)</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_mon</td>
+<td style="text-align: center;">month</td>
+<td style="text-align: center;">from 1 to 12</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_mday</td>
+<td style="text-align: center;">day of the month</td>
+<td style="text-align: center;">from 1 to 31</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_hour</td>
+<td style="text-align: center;">hour</td>
+<td style="text-align: center;">from 0 to 23</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_min</td>
+<td style="text-align: center;">minute</td>
+<td style="text-align: center;">from 0 to 59</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_sec</td>
+<td style="text-align: center;">second</td>
+<td style="text-align: center;">from 0 to 61*</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_wday</td>
+<td style="text-align: center;">day of the week</td>
+<td style="text-align: center;">from 0 to 6 (Monday is 0)</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_yday</td>
+<td style="text-align: center;">day of the year</td>
+<td style="text-align: center;">from 1 to 366</td>
+</tr>
+<tr>
+<td style="text-align: center;">tm_isdst</td>
+<td style="text-align: center;">
+<p>if DST is in a region<br/>
+			(see below)</p>
+</td>
+<td>
+<p style="text-align: center;">0 – no<br/>
+			1 – yes<br/>
+			-1 – unknown</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>*60 is supported for representing a <a href="https://en.wikipedia.org/wiki/Leap_second" rel="noopener noreferrer nofollow" target="_blank">leap second</a>, while 61 is there for historical reasons.</p>
+<p>Getting back to our example, to rearrange the output, we can either use the <code class="language-python">asctime()</code> function to convert the values into a string:</p>
+<pre><code class="language-python">current_time = time.asctime(time.gmtime())  # first option
+
+print(f"It's {current_time}. Time {action}.")
+# It's Wed Sep 16 13:34:11 2020. Time to feed the cat.</code></pre>
+<p>Or we can use the <code class="language-python">strftime()</code> function which also returns a string, but it can be used to specify the output format with the <a href="https://docs.python.org/3/library/time.html#time.strftime" rel="noopener noreferrer nofollow" target="_blank">directives</a>. For example, <code class="language-python">%H</code> is used for hours, <code class="language-python">%M</code> – for minutes and <code class="language-python">%S</code> – for seconds.</p>
+<pre><code class="language-python">current_time = time.strftime("%H:%M", time.gmtime())  # second option
+
+print(f"It's {current_time}. Time {action}.")
+# It's 13:36. Time to feed the cat.</code></pre>
+<p>If you try that out yourself, you may notice that the time that the <code class="language-python">gmtime()</code> returns is different from your current local. That is because the function gives you the time according to the <a href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time" rel="noopener noreferrer nofollow" target="_blank">UTC</a> (which is an English-French acronym for Coordinated Universal Time) and this is probably not what you need. To print the current time for your region, use the <code class="language-python">localtime()</code> function: </p>
+<pre><code class="language-python">current_time = time.strftime("%H:%M", time.localtime())
+
+print(f"It's {current_time}. Time {action}.")
+# It's 16:36. Time to feed the cat.</code></pre>
+<h5 id="time-measurement">Time measurement</h5>
+<p>What if our user also has a dog that should be fed in an hour after the cat? In this case,  with the <code class="language-python">sleep()</code> function, we can just ask our program to wait for an hour and then remind the user about the dog. Let's add these lines to our program and look at the output:</p>
+<pre><code class="language-python">action2 = "to feed the dog"
+
+time.sleep(3600)  # NB! the time to wait is given in seconds
+
+current_time = time.strftime("%H:%M", time.localtime())
+
+print(f"It's {current_time}. Time {action2}.")
+# It's 17:36. Time to feed the dog.</code></pre>
+<p></p><div class="alert alert-primary">Most often <code class="language-python">sleep()</code> is used when you need some time to pass between code executions.</div><p></p>
+<p>The module also has another useful function – <code class="language-python">time()</code>. It returns the time passed since the epoch (starting point for counting time) in seconds — it is a float object, but you can quickly convert it into a string of the same format as <code class="language-python">asctime()</code> using <code class="language-python">ctime()</code>. That is, the following lines give the same output:</p>
+<pre><code class="language-python">print(time.asctime())           # Mon Oct 12 20:50:36 2020
+print(time.ctime(time.time()))  # Mon Oct 12 20:50:36 2020
+</code></pre>
+<p>Note that depending on the platform, the reference point for the epoch might be different. On Windows and Unix systems, the epoch starts on January 1, 1970, 00:00:00 (UTC). You can check that typing <code class="language-python">gmtime(0)</code>:</p>
+<pre><code class="language-python">print(time.gmtime(0))  # on Windows
+# time.struct_time(tm_year=1970, tm_mon=1, tm_mday=1, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=1, tm_isdst=0)</code></pre>
+<p>In the example above, as you can see, the <code class="language-python">gmtime()</code> function takes an optional argument. It specifies the time passed since the beginning of the epoch (in seconds) which the function then converts into a <code class="language-python">struct_time</code> object. If the argument is not provided, the current time returned by <code class="language-python">time()</code> is used by default.</p>
+<h5 id="time-difference">Time difference</h5>
+<p>Knowing time in seconds might be useful, for instance, if you want to find the difference between two points of time. Now, let's imagine that the cat is trying to lose some weight and along with the current time we also want to print the time passed since the last time our user has fed the cat. This example is a little artificial since in a real program you would probably have some more code to execute between the first, starting point, and the next one, which marks the end of counting, but it still serves its demonstrative purpose:</p>
+<pre><code class="language-python">last_time = time.time()
+current_time = time.strftime("%H:%M", time.localtime())
+
+print(f"It's {current_time}. Time {action}.")
+# It's 17:36. Time to feed the cat.
+
+time.sleep(300)
+
+new_cur_time = time.time()
+time_passed = int((new_cur_time - last_time) / 60)  # let's print the result in minutes
+
+print(f"You have fed the cat {time_passed} minutes ago.")
+# You have fed the cat 5 minutes ago.
+</code></pre>
+<p>In our case, it might be enough to subtract one point of time from another in seconds and represent it in minutes or hours for readability. But sometimes, working on your code, you need to know the precise time of your program execution. With the time module, this precision can be granted with the <code class="language-python">perf_counter()</code> function:</p>
+<pre><code class="language-python">start = time.perf_counter()
+
+print("Oh no! The cat's breaking his diet!")
+
+end = time.perf_counter()
+total_time = end - start
+
+print(f"Your program has executed for {total_time} seconds.")
+# Oh no! The cat's breaking his diet!
+# Your program has executed for 0.036370800000000036 seconds.
+</code></pre>
+<p>It may look similar to the <code class="language-python">time()</code> function, but the time it returns is relative and is not related<em> </em>to the real-world-time, it is related to the processes inside hardware. This is why the <code class="language-python">perf_counter()</code> should be used <u><em>only for performance measurement</em></u>.</p>
+<h5 id="timezones-and-other-peculiarities">Timezones and other peculiarities</h5>
+<p>Let's go back to our reminder program and imagine that we know that our user is now traveling, and that is why we want to let them know that the timezone has changed. This can be done using the <code class="language-python">timezone</code>, which will show the time offset west of UTC, in seconds:</p>
+<pre><code class="language-python">print(time.timezone / 3600)  # let's print the result in hours for readability
+# -3.0</code></pre>
+<p>Alternatively, you can use the <code class="language-python">tzname</code> which will print the abbreviated name of a new timezone:</p>
+<pre><code class="language-python">print(time.tzname)
+# ('RTZ 2 (winter)', 'RTZ 2 (summer)')</code></pre>
+<p>Sometimes, it also might be useful to know if time in that region depends on the season of the year (this is called <a href="https://en.wikipedia.org/wiki/Daylight_saving_time" rel="noopener noreferrer nofollow" target="_blank">DST</a> – Daylight Saving Time). Let's add this information to our notification about the time changes with the help of the <code class="language-python">daylight</code> which returns <code class="language-python">0</code> if there is no DST and <code class="language-python">1</code> otherwise:</p>
+<pre><code class="language-python">print(time.daylight)
+# 0</code></pre>
+<p>Keep in mind that the output of these functions depends on your region and might differ. </p>
+<h5 id="summary">Summary</h5>
+<p>Let's summarize what we have learned in this topic. We now know about:</p>
+<ul>
+<li>the Python <code class="language-python">time</code> module;</li>
+<li>its <code class="language-python">struct_time</code> object, which contains all information about current time from year to seconds; </li>
+<li>different ways to represent time (<code class="language-python">asctime()</code>, <code class="language-python">strftime()</code>, <code class="language-python">ctime()</code>, <code class="language-python">gmtime()</code>, <code class="language-python">localtime()</code>); </li>
+<li>and several main functions that might be useful in various situations such as time and performance measurement (<code class="language-python">time()</code>, <code class="language-python">perf_counter()</code>), waiting for a certain time during program execution (<code class="language-python">sleep()</code>) and getting information about regional time peculiarities (<code class="language-python">timezone</code>, <code class="language-python">tzname</code>, <code class="language-python">daylight</code>).</li>
+</ul>
+<p>Now, it's high time to go and try them in your program, and do not forget about Python <a href="https://docs.python.org/3/library/time.html" rel="noopener noreferrer nofollow" target="_blank">docs</a> if you strive to learn more.</p></body></html>

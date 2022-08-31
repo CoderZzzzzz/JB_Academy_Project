@@ -1,0 +1,71 @@
+<h2>Lambda functions</h2>
+<html><body><p>In programming, it's often useful to know alternative ways to implement something. It not only shows your knowledge and creative analytical thinking, sometimes one implementation just fits better for some reason like the time it takes to execute or memory it needs. Also, as you probably know already, that reason is often the number of lines of code. So, in this topic, we'll learn a great alternative to small functions!</p>
+<h5 id="defining-a-lambda-function">Defining a lambda function</h5>
+<p>Imagine that you want to write a function that takes a number and doubles it. If you already know how to define functions in Python using the <strong>def </strong>keyword, you will probably write something like this:</p>
+<pre><code class="language-python">def doubler(x):
+    return 2 * x</code></pre>
+<p>Well, there is actually another way to define such small functions in Python using the <strong>lambda </strong>keyword. The following function is completely equivalent to the one defined above:</p>
+<pre><code class="language-python">lambda x: 2 * x</code></pre>
+<p>This function doesn't have a name and is, therefore, called <strong>anonymous</strong>. Since in Python anonymous functions are declared with the <strong>lambda</strong><strong> </strong>keyword, they are often referred to as<strong> lambda functions</strong>.</p>
+<p>Let's take a look at the syntax in its general form:</p>
+<pre><code class="language-python">lambda arguments: expression </code></pre>
+<p>A lambda function can take any number of arguments separated by commas, but it must consist of a <em>single </em>expression. This expression is evaluated and the result is returned. Note that you do not need the <strong>return</strong> statement here. For example, the following anonymous function computes the remainder of the division of the sum of two numbers by two:</p>
+<pre><code class="language-python">lambda x, y: (x + y) % 2</code></pre>
+<p>In case you want to put a condition in some lambda function, you'll have to use the so-called ternary operator <code class="language-python">first_alternative if condition else second_alternative</code>:</p>
+<pre><code class="language-python"># Yes
+lambda x: 'even' if x % 2 == 0 else 'odd'
+
+# No
+lambda x:
+    if x % 2 == 0:
+        return 'even'
+    else:
+        return 'odd'</code></pre>
+<p>Classic conditional statements will not work within a lambda function.</p>
+<h5 id="invoking-a-lambda-function">Invoking a lambda function</h5>
+<p>Alright, but how do we call such a function if it does not have a name?</p>
+<p>Python syntax allows us to do so by enclosing the function in brackets and passing arguments right away:</p>
+<pre><code class="language-python">(lambda x, y: (x + y) % 2)(1, 5)
+# The output is 0</code></pre>
+<p>Alternatively, it is also possible to assign a function object to a variable:</p>
+<pre><code class="language-python">func = lambda x, y: (x + y) % 2
+func(1, 10)
+# The output is 1</code></pre>
+<p>However, assigning an anonymous function does not comply with the <a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations" rel="noopener noreferrer nofollow" target="_blank">official style guidelines</a>. It's reasonable to declare your function explicitly with the <strong>def</strong> keyword in case you want it to have a name.</p>
+<h5 id="when-is-it-useful">When is it useful?</h5>
+<p>You might have noticed already that the function from our example above is fully equivalent to a 'normal' function defined as follows:</p>
+<pre><code class="language-python">def my_func(x, y):
+    return (x + y) % 2</code></pre>
+<p>But if we can always use a normal function instead, why are lambda functions useful? </p>
+<p>Well, lambda functions are handy, for example, when you use them in combination with another function. Take a look at the following example:</p>
+<pre><code class="language-python">def create_function(n):
+    return lambda x: n * x</code></pre>
+<p>The function <code class="language-python">create_function</code> takes one argument, number <em>n</em>, and returns a function that multiplies any given number <em>x</em> by that <em>n</em>. You can use it further in your program to quickly define a bunch of functions, for example:</p>
+<pre><code class="language-python"># Creating a function that doubles its argument
+doubler = create_function(2)
+
+# This function will triple its argument
+tripler = create_function(3)
+
+doubler(2)
+# Outputs 4
+
+tripler(2)
+# Outputs 6</code></pre>
+<p>As you can see, the functions <code class="language-python">doubler()</code> and <code class="language-python">tripler()</code> are designed rather uniformly: they take a single argument and return it multiplied by <em>2</em> and <em>3</em> respectively. Thus, lambda functions can be embedded into a larger function, like <code class="language-python">create_function()</code> in our example.</p>
+<h5 id="summary">Summary</h5>
+<p>Let's go over the main points we discussed:</p>
+<ul>
+<li>
+<p><strong>Anonymous functions</strong> are functions defined without a name.</p>
+</li>
+<li>
+<p>You can use the <strong>lambda </strong>keyword to define anonymous functions in Python.</p>
+</li>
+<li>
+<p>A lambda function can only contain a single expression.</p>
+</li>
+<li>
+<p>Lambda functions are particularly handy for one-time use, or when combined with other functions.</p>
+</li>
+</ul></body></html>

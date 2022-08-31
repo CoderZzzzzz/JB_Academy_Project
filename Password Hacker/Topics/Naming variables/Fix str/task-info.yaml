@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    str = "Hello"
+    str = str + str(10)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/5889#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 06 Aug 2022 12:38:25 UTC
+record: -1

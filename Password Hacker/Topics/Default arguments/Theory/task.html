@@ -1,0 +1,78 @@
+<h2>Default arguments</h2>
+<p>In addition to several ways that you can use to pass arguments into functions, Python also has special syntax for accepting these values from a function call. So, while in earlier topics we have learned how to work with arguments, now we will focus on parameters, the ones with <strong>default values </strong>in particular, and look into them in more detail.</p>
+
+<h5 id="defaults" style="text-align: center;">Defaults</h5>
+
+<p>In Python, functions can have parameters with <strong>default values</strong>. Default parameters are specified in the function definition and contain default values for arguments in case they are not provided with a function call. Have a look at this code:</p>
+
+<pre><code class="language-python">def locate(place, planet="Earth"):
+    print(place, "on", planet)
+
+
+locate("Berlin")                     # Berlin on Earth
+locate("Breakfast", planet="Pluto")  # Breakfast on Pluto
+locate("Craters", "Mercury")         # Craters on Mercury</code></pre>
+
+<p>Here we have two parameters, <code class="language-python">place</code> and <code class="language-python">planet</code>. The first one has no default value, so we should always specify it when calling the function. The second one, in contrast, can be omitted, in which case the function will simply take the default value.</p>
+
+<p>Parameters with default values, such as <code class="language-python">planet</code>, are optional in some way. You can easily call a function without them and rely on preset values. As in the example above, most of the places we might want to find are most likely on Earth. However, new values can be assigned to them either by name or by position.</p>
+
+<p>When you declare this function, place non-default parameters first and then those with default values. If you try doing the opposite, <code class="language-python">SyntaxError</code> will crop up:</p>
+
+<pre><code class="language-python">def greet(greeting="Hello,", name):
+    print(greeting, name)
+
+# SyntaxError: non-default argument follows default argument</code></pre>
+
+<p>In this case, you will not be able to use the default value at all. As the second parameter still requires a value, we would always have to write both values in a call, which makes not much sense. So, when you declare a function, pay attention to the order of the parameters.</p>
+
+<h5 id="mutable-objects-as-defaults" style="text-align: center;">Mutable objects as defaults</h5>
+
+<p>When it comes to mutable objects, things are getting trickier. Let's set a list as a default value and see how it works:</p>
+
+<pre><code class="language-python">def add_player(player, team=[]):
+    ...
+    team.append(player)
+    return team</code></pre>
+
+<p>As you can see, the function simply adds a new player to a team. First, we will give both arguments to it:</p>
+
+<pre><code class="language-python">ice_hockey_team = add_player("Chris", ["Robert", "Alice"])
+print(ice_hockey_team)    # ['Robert', 'Alice', 'Chris']</code></pre>
+
+<p>Everything looks fine. However, when we call it relying on the default value, the function's behavior would differ from what you might have expected:</p>
+
+<pre><code class="language-python">rugby_team = add_player("Robin")
+print(rugby_team)     # ['Robin']
+
+football_team = add_player("Andrew")
+print(football_team)  # ['Robin', 'Andrew']
+print(rugby_team)     # ['Robin', 'Andrew']</code></pre>
+
+<p>Instead of two separate lists for teams, surprisingly, you got just one. With every subsequent call, the function will append a new item to this list. Why so? It turns out that default parameter values are evaluated <em>once</em>.</p>
+
+<p>After you have declared a function, a new object for a default value is created. It will be used from this point on. This means that if the function modifies this object in some way, the default value in the mutable will change too. For this reason, you should use mutable default values carefully.</p>
+
+<p>Here is a common workaround to fix the function from our earlier example:</p>
+
+<pre><code class="language-python">def add_player(player, team=None):
+    if team is None:
+        team = []
+    team.append(player)
+    return team</code></pre>
+
+<p>Setting the default value to <code class="language-python">None</code> and explicitly reassigning the value of the <code class="language-python">team</code> parameter allows you to create a new list each time this function is called.</p>
+
+<h5 id="pep-time" style="text-align: center;">PEP time</h5>
+
+<p>Look at the declared functions shown in this topic one more time, for example, <code class="language-python">def locate(place, planet="Earth"): ...</code>. Have you noticed missing spaces around the equals sign? Their absence is not accidental. By <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://www.python.org/dev/peps/pep-0008/#other-recommendations" rel="noopener noreferrer nofollow">PEP 8 convention</a>, you should not put spaces around <code class="language-python">=</code> when indicating a keyword argument. This holds true for parameters with default values.</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>Let's go over the main points we have discussed:</p>
+
+<ul>
+	<li>Python Functions can be quite flexible, you can use them passing fewer arguments in a call (thanks to <strong>default values</strong>).</li>
+	<li>You should pay close attention to the <strong>order</strong> of parameters when you declare functions. Place non-default parameters first and those with default values afterward.</li>
+	<li><strong>Mutable defaults</strong> may work contrary to your intentions, as their values are created once at the runtime. If so, a common way to avoid trouble is by using <code class="language-python">None</code> by default and changing the parameter's value in the function's body.</li>
+</ul>

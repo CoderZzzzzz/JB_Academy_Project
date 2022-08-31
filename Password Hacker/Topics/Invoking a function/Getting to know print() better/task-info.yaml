@@ -1,0 +1,17 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: help(print)
+- text: doc(print)
+- text: print.__doc__()
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/5894#comment
+status: Unchecked
+record: -1
+local_check: false

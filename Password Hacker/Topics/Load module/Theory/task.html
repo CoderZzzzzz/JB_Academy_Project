@@ -1,0 +1,82 @@
+<h2>Load module</h2>
+<p>There are different ways to interact with code. In this topic, we'll learn what they are and in what cases which option is the most convenient. However, most importantly, we'll find out how to save our code into a file for further use or editing. As you probably have already guessed, that applies to any code, which means you can also use someone else's code and this last part is a pretty big deal you'll quickly appreciate as a developer. </p>
+
+<h5 id="module-basics" style="text-align: center;">Module basics</h5>
+
+<p>While working on simple examples, you probably type your code directly into the interpreter. But every time you exit the interpreter and start it again, you lose all the definitions you made before. So as you start writing larger programs, it makes sense to prepare your code in advance using a text editor and then run it with the interpreter. A file containing a list of operations that will be  read and interpreted further on is called <strong>script</strong>.</p>
+
+<p>You also may want to write some functions and then use them in other programs or even reuse code someone else wrote before. One way is just to copy the code into your program, but it soon leads to code that is badly structured and hard to read. Luckily, there is another way in Python to organize and reuse code called <strong>modules</strong>.</p>
+
+<p>The module is simply a file that contains Python statements and definitions. It usually has a <strong>.py</strong> extension. What really makes the module system powerful is the ability to <strong>load</strong> or <strong>import</strong> one module from another.</p>
+
+<h5 id="module-loading" style="text-align: center;">Module loading</h5>
+
+<p>To load a module, just use an <strong>import </strong>statement. In its basic form, it has the following syntax: <code class="language-python">import module</code>.</p>
+
+<pre><code class="language-python">import super_module
+
+super_module.super_function()  # calling a function defined in super_module
+
+print(super_module.super_variable)  # accessing a variable defined in super_module</code></pre>
+
+<p><code class="language-python">super_module</code> is the name of the module you want to import. For example, a file called <samp>super_module.py</samp> has a name <samp>super_module</samp>. In order to be available for import, <samp>super_module.py</samp> should be located in the same directory as the file you are trying to import <code class="language-python">super_module</code> to. At first, Python importing system looks for a module in the current directory, then it checks the built-in modules, and if nothing is found an error will be raised. After importing, the module becomes available under its name and you can access functions and variables defined in it using the dot notation (<code class="language-python">super_module.super_function()</code>).</p>
+
+<p>It's also common to only import the required functions or variables from a module but not the module itself. You can do this by using <code class="language-python">from</code> in the import statement.</p>
+
+<pre><code class="language-python">from super_module import super_function
+
+super_function()  # super_function is now available directly at the current module
+
+super_module.super_function()  # note that in this case name super_module is not imported, 
+                               # so this line leads to an error</code></pre>
+
+<p>A good practice is to load a single module in a single line and put all your imports at the top of the file because it increases readability.</p>
+
+<pre><code class="language-python">import module1
+import module2
+import module3
+
+# the rest of module code goes here</code></pre>
+
+<p>A special form of import statement allows you to load all the names defined in a module. It is called <em><strong>wildcard import</strong> </em>and has the syntax <code class="language-python">from module import *</code>. You should generally avoid this in your code. It can cause unexpected behavior because you don't know what names exactly are imported into the current namespace. Besides, these names may shadow some of the existing ones without your knowledge. It's better to make it explicit and specify what you're importing.</p>
+
+<p>In case you have to use several import statements, pay attention to their order:</p>
+
+<ol>
+	<li>standard library imports, i.e. from the Standard Python library</li>
+	<li>third party dependency imports, i.e. something installed additionally</li>
+	<li>local application imports, i.e. files that belong to the current application</li>
+</ol>
+
+<p>Having your imports grouped, you may put a blank line between import sections. Also, some guidelines, including ours, recommend sorting imports alphabetically.</p>
+
+<h5 id="built-in-modules" style="text-align: center;">Built-in modules</h5>
+
+<p>Python comes with a great standard library. It contains a lot of built-in modules that provide useful functions and data structures. Another advantage is that the standard library is available on every system that has Python installed. <a target="_blank" target="_blank" target="_blank" target="_blank" target="_blank" href="https://docs.python.org/3/py-modindex.html" rel="noopener noreferrer nofollow">Here</a> you can find an official library reference.</p>
+
+<p>Python has a <samp>math</samp> module that provides access to mathematical functions.</p>
+
+<pre><code class="language-python">import math
+
+print(math.factorial(5))  # prints the value of 5!
+
+print(math.log(10))  # prints the natural logarithm of 10
+
+print(math.pi)  # math also contains several constants
+print(math.e)</code></pre>
+
+<p><samp>The string</samp> module contains common string operations and constants.</p>
+
+<pre><code class="language-python">from string import digits
+
+print(digits)  # prints all the digit symbols</code></pre>
+
+<p><samp>The random</samp> module provides functions that let you make a random choice.</p>
+
+<pre><code class="language-python">from random import choice
+
+print(choice(['red', 'green', 'yellow']))  # print a random item from the list</code></pre>
+
+<h5 id="summary">Summary</h5>
+
+<p>Thus, in this topic, we've learned what scripts and modules are, why they're useful,  how to import modules or particular things from them and whether or not we need to use a module's name to access them. We've also discussed external modules and those that come with a standard Python library. This basic skill will definitely give you a lot of opportunities in the future, so don't be shy to try module loading on your own!</p>

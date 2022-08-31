@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # the list with classes; please, do not modify it
+    groups = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C']
+
+    # your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/11104#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Wed, 17 Aug 2022 02:15:16 UTC
+record: -1

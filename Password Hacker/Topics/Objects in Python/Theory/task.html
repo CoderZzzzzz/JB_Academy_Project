@@ -1,0 +1,65 @@
+<h2>Objects in Python</h2>
+<p>Knowing how different types of objects work in Python will help you understand some of the following topics more deeply, as well as the structure of the language in general.</p>
+
+<h5 id="reference-to-an-object">Reference to an object</h5>
+
+<p>In Python, all values are stored in objects. You can think of an object as a box that contains information about some value and also stores some additional data such as its identity. When you assign a value to a variable, e.g. <code class="language-python">string = "hello"</code>, Python creates a new object, places this value (the string <code class="language-python">"hello"</code> in our case) inside the new object and then creates a <strong>reference</strong> from the variable name <code class="language-python">string</code> to the object.</p>
+
+<p><img alt="" src="https://ucarecdn.com/657a40a1-4ae3-44a2-b484-caaa762c635d/"></p>
+
+<p>Then, if we assign one variable to another, e.g. <code class="language-python">new_string = string</code>, Python will create a reference from the new variable <code class="language-python">new_string</code> to the<strong> same object</strong>.</p>
+
+<p><img alt="" src="https://ucarecdn.com/facfeced-a7b5-47b2-9e94-cc241fe3aac0/"></p>
+
+<p>You can use the <code class="language-python">id</code> function to see that both variables refer to the same object:</p>
+
+<pre><code class="language-python">print(id(string))        # 4336233024
+print(id(new_string))    # 4336233024</code></pre>
+
+<p>As a result, you can access the object using any of the two variable names. You can also assign a new value to one of these variables and this will not affect the other one.</p>
+
+<pre><code class="language-python">string = "hello"
+new_string = string
+string = "world"
+
+print(string, id(string))            # world 4336233136
+print(new_string, id(new_string))    # hello 4336233024</code></pre>
+
+<p>Note that the identity has changed along with the value.</p>
+
+<p><img alt="" src="https://ucarecdn.com/7f9aff54-a941-4cff-89cc-a76ddb3a1a4e/"></p>
+
+<p> </p>
+
+<p>However, the situation is a bit more complex when we deal with <em>mutable</em> objects, e.g. some of the containers.</p>
+
+<h5 id="mutable-objects-references">Mutable objects &amp; references</h5>
+
+<p>Let's take a list as an example. The thing is, a list doesn't store its values inside itself. Instead, it stores <strong>references </strong>to objects that store values. For example, when you write <code class="language-python">lst = [2, 3, 9]</code>, Python creates the following structure:</p>
+
+<p><img alt="" src="https://ucarecdn.com/422bb28f-ef2f-4a8a-9326-651fd26a7ccd/"></p>
+
+<p>Now, if we assign our list to a new variable and then try to alter the first object, this will also affect the new list:</p>
+
+<pre><code class="language-python">lst = [2, 3, 9]
+new_lst = lst
+
+print(lst, id(lst))            # [2, 3, 9] 4334518600
+print(new_lst, id(new_lst))    # [2, 3, 9] 4334518600
+
+# we change an element of the first list
+lst[2] = 0
+print(lst, id(lst))            # [2, 3, 0] 4334518600
+
+# but the new list is also modified
+print(new_lst, id(new_lst))    # [2, 3, 0] 4334518600</code></pre>
+
+<p>This is so because both lists refer to the same object: when it is modified, all variables continue to refer to this very object. In the next topic, you will learn how to alter a list without changing its copies.</p>
+
+<h5 id="summary">Summary</h5>
+
+<ul>
+	<li>Variables in Python do not store values themselves, they store <strong>references</strong> to objects that store values.</li>
+	<li>When we assign one variable to another, they refer to the <strong>same object</strong>.</li>
+	<li>After modifying mutable objects, other variables referring to it will also <strong>change</strong>.</li>
+</ul>

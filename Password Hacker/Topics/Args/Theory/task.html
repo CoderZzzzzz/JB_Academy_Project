@@ -1,0 +1,101 @@
+<h2>Args</h2>
+<p>Functions have a flexible syntax in Python. We will find out what allows functions to accept a varying number of arguments and how to unpack iterable objects when calling a function.</p>
+
+<h5 id="multiple-positional-arguments" style="text-align: center;">Multiple positional arguments</h5>
+
+<p>You might be surprised by the fact that everything we've done before with functions limited us in some way. For example, if we don't specify the defaults for arguments, we will always have to pass the exact number of values into such a function. However, sometimes it's more convenient when the number of arguments varies. For example, if you are declaring a function that should find the sum of all values passed into it, you never know how many arguments a user might want to use. Let's start with a simple case and define a function with two parameters. It can be done as follows:</p>
+
+<pre><code class="language-python">def add(a, b):
+    return a + b</code></pre>
+
+<p>This function makes us pass only two values, we can't just do <code class="language-python">add(1, 2, 3)</code>. Well, what we can do is to set a default value for the third parameter and then call this function with either two or three values. But this hardly solves the problem for more complex cases.</p>
+
+<p>If you are not sure about the number of arguments that your function might take, or if you don't want to limit them, use the following syntax to define a function with <code class="language-python">*args</code>:</p>
+
+<pre><code class="language-python">def add(a, b, *args):
+    total = a + b
+    for n in args:
+        total += n
+    return total
+</code></pre>
+
+<p>This allows you to work with the variable <code class="language-python">args</code>, which is a tuple of remaining <em>positional </em>arguments. Its length may vary:</p>
+
+<pre><code class="language-python"># The length of `args` is 3
+print(add(1, 2, 3, 4, 5))
+
+# The length of `args` is 0
+print(add(1, 2))</code></pre>
+
+<p>The function <code class="language-python">add()</code> now requires two arguments, but if you pass additional values they will be collected in a tuple and get added to the total.</p>
+
+<p>As you might have guessed, <code class="language-python">args</code> is short for "arguments". You don't have to use this conventional name all the time, though:</p>
+
+<pre><code class="language-python">def will_survive(*names):
+    for name in names:
+        print("Will", name, "survive?")
+
+
+will_survive("Daenerys Targaryen", "Arya Stark", "Brienne of Tarth")</code></pre>
+
+<p>The output for this function call will be as follows:</p>
+
+<pre><code class="language-python">Will Daenerys Targaryen survive?
+Will Arya Stark survive?
+Will Brienne of Tarth survive?</code></pre>
+
+<p>This works for any variable name as long as there is a single asterisk <code class="language-python">*</code> right before it.</p>
+
+<p>Normally, <code class="language-python">*args</code> comes after specific parameters:</p>
+
+<pre><code class="language-python">def func(positional_args, defaults, *args):
+    pass</code></pre>
+
+<p>Once all required arguments have been passed, the remaining values are packed into the tuple.</p>
+
+<p>The parameters that come after <code class="language-python">*args</code> are <em>keyword-only</em>. It means that they can only be used as keywords rather than positional arguments.</p>
+
+<pre><code class="language-python">def recipe(*args, sep=" or "):
+    return sep.join(args)
+
+
+print(recipe("meat", "fish"))               # meat or fish
+print(recipe("meat", "fish", sep=" and "))  # meat and fish</code></pre>
+
+<h5 id="unpacking-in-function-calls" style="text-align: center;">Unpacking in function calls</h5>
+
+<p>The Python syntax enables us to pass all items from a sequence as individual positional arguments using <code class="language-python">*</code>. A single asterisk operator <em>unpacks </em>an iterable. Let's invoke the <code class="language-python">print()</code> function and see how it works:</p>
+
+<pre><code class="language-python">print(*"fun")        # f u n
+print(*[5, 10, 15])  # 5 10 15</code></pre>
+
+<p>This code will be equivalent to a call where elements are listed one by one: <code class="language-python">print("f", "u", "n")</code> and <code class="language-python">print(5, 10, 15)</code> respectively. Unpacking just takes less of your time.</p>
+
+<p>Combined with <code class="language-python">*args</code> in our slightly modified function <code class="language-python">add()</code>, unpacking takes away the concern for the number of values both in the function's body and upcoming calls.</p>
+
+<pre><code class="language-python">def add(*args):
+    total = 0
+    for n in args:
+        total += n
+    return total
+
+
+small_numbers = [1, 2, 3]
+large_numbers = [9999999, 1111111]
+
+print(add(*small_numbers))  # 6
+print(add(*large_numbers))  # 11111110</code></pre>
+
+<p>This is a really powerful feature, as it allows you to conveniently handle an arbitrary number of values in your function.</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>Let's sum up what we discussed in the topic:</p>
+
+<ul>
+	<li>A function with <code class="language-python">*args</code> can accept a changing number of <strong>positional </strong>arguments.</li>
+	<li>The variable name <code class="language-python">args</code> is <strong>arbitrary</strong>, you can always choose another one.</li>
+	<li><code class="language-python">*args</code> provides access to a <strong>tuple </strong>of remaining values.</li>
+	<li>The <strong>order of parameters</strong> in the function definition is important, as well as the <strong>order of passed arguments</strong>.</li>
+	<li>In function calls, you can use the <strong>unpacking operator  </strong><code class="language-python">*</code> for iterable objects.</li>
+</ul>

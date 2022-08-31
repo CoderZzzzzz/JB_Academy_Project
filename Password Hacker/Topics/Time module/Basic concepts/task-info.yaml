@@ -1,0 +1,22 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: ' Epoch is a starting point for counting time.'
+- text: <code>time.perf_counter()</code> was introduced specifically for the purpose
+    of performance measurement.
+- text: Epoch is absolute value of time passed since the beginning of CE, so it definetly
+    doesn't depend on your system.
+- text: <code>time</code> is a built-in module and comes with Python.
+- text: <code>time.gmtime()</code> and <code>time.localtime()</code> return string
+    representation of the current time.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10964#comment
+status: Solved
+record: -1
+local_check: false

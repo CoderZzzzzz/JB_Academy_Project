@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def check(obj1, obj2):
+        ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9266#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Mon, 29 Aug 2022 00:39:53 UTC
+record: -1

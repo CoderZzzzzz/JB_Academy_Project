@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # fix the code below
+    singleton = ([0, 1, 1, 2, 3, 5, 8, 13, 21])
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7470#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sun, 07 Aug 2022 12:28:46 UTC
+record: -1

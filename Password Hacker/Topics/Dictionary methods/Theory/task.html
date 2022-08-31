@@ -1,0 +1,147 @@
+<h2>Dictionary methods</h2>
+<html><body><p>You already know how to create a dictionary and access its items. In this topic, you are going to learn about other features of dictionaries.</p>
+<h5 id="alternative-dictionary-creation" style="text-align: center;">Alternative dictionary creation</h5>
+<p>You know that there are two ways to create a dictionary. Using <em>curly braces </em>with a comma-separated list of <code class="language-python">key: value</code> pairs or  the <code class="language-python">dict</code> constructor. We will learn about the <code class="language-python">fromkeys</code> method that creates a new dictionary with specified keys and values. This is the syntax for this method:</p>
+<pre><code class="language-python">dict.fromkeys(keys, value)</code></pre>
+<p>The <code class="language-python">keys</code> parameter is a sequence of elements that will become the keys of a new dictionary. The <code class="language-python">value</code> parameter is optional and defaults to <code class="language-python">None</code>, but the user can specify a value for all keys in the dictionary. Look at the example below:</p>
+<pre><code class="language-python">planets = {'Venus', 'Earth', 'Jupiter'}  
+  
+# initializing by default with None 
+planets_dict = dict.fromkeys(planets)
+print(planets_dict)  # {'Jupiter': None, 'Venus': None, 'Earth': None}
+
+# initializing with a value
+value = 'planet'
+planets_dict = dict.fromkeys(planets, value)
+print(planets_dict)  # {'Earth': 'planet', 'Venus': 'planet', 'Jupiter': 'planet'}
+
+# changing the value of 'Jupiter'
+planets_dict['Jupiter'] = "giant " + planets_dict['Jupiter']
+print(planets_dict)
+ # {'Earth': 'planet', 'Venus': 'planet', 'Jupiter': 'giant planet'}</code></pre>
+<p>The word was added successfully! But now we want to create a dictionary that would store the names of the satellites for those planets. Some planets have several satellites, some do not have them at all, so it is more convenient to use a list as a value.</p>
+<pre><code class="language-python"># some satellites of the Solar System
+satellites = ['Moon', 'Io','Europa']
+
+# initializing with an empty list
+planets_dict = dict.fromkeys(planets, [])
+print(planets_dict)  # {'Jupiter': [], 'Venus': [], 'Earth': []}
+</code></pre>
+<p>Let's add the items from the <code class="language-python">satellites</code> list to the corresponding planets. Look, this is what happened to our dictionary:</p>
+<pre><code class="language-python">planets_dict['Earth'].append(satellites[0])
+planets_dict['Jupiter'].append(satellites[1])
+planets_dict['Jupiter'].append(satellites[2])
+print(planets_dict)  
+# {'Jupiter': ['Moon', 'Io', 'Europa'], 'Venus': ['Moon', 'Io', 'Europa'], 'Earth': ['Moon', 'Io', 'Europa']}</code></pre>
+<p>We see that all the elements of the <code class="language-python">satellites</code> list have been assigned to all planets in our dictionary. This happened because the <code class="language-python">fromkeys </code>method assigns the same object to all keys. While referring to different keys of the <code class="language-python">planets_dict</code> dictionary, we are still referring to the same list. The difference from the previous example is that if we use mutable objects (a list, a dictionary) as values,  all changes will also apply to our dictionary. The solution is to use the dictionary comprehension:</p>
+<pre><code class="language-python">planets_dict = {key: [] for key in planets}</code></pre>
+<p>More details on this operation will be provided in another topic on dictionary operations.</p>
+<h5 id="adding-items" style="text-align: center;"> Adding items</h5>
+<p>Suppose we want to add items to an existing dictionary. You know one way to do it — define a new key and a new value: <code class="language-python">existing_dict['new key'] = 'new value'</code>. But there is another way — use the <code class="language-python">update</code> method. The method updates the dictionary with new elements from another dictionary or an iterable of key-value pairs.</p>
+<p>Let's create a dictionary and define months as keys, and the average temperature for this month as values. So we have the following <code class="language-python">testable</code> dictionary:</p>
+<pre><code class="language-python">testable = {'September': '16°C', 'December': '-10°C'} 
+another_dictionary = {'June': '21°C'}
+
+# adding items from another dictionary
+testable.update(another_dictionary)
+print(testable)  # {'September': '16°C', 'December': '-10°C', 'June': '21°C'}
+
+# adding a key-value pair
+testable.update(October='10°C')
+print(testable)  
+# {'September': '16°C', 'December': '-10°C', 'June': '21°C', 'October': '10°C'}</code></pre>
+<p>If the specified key already exists in the dictionary, the method will update the key with the new value:</p>
+<pre><code class="language-python">testable = {'September': '16°C', 'December': '-10°C'}
+testable.update(December='-20°C')
+
+print(testable)  # {'September': '16°C', 'December': '-20°C'}</code></pre>
+<h5 id="getting-and-removing-items" style="text-align: center;">Getting and removing items</h5>
+<p>We learned how to create a dictionary and add elements to it. But what if we need to get some value from the dictionary or also remove an item? The following methods will help you deal with different tasks depending on your needs.</p>
+<p><em>1. Get a value from the dictionary by a key</em>.</p>
+<p>As you remember, we can access the value in a dictionary by a key:</p>
+<pre><code class="language-python">testable = {}
+testable['September'] = '16°C'
+
+print(testable['September'])  # 16°C
+</code></pre>
+<p>However, if you try to access a non-existent key, you will get a <code class="language-python">KeyError</code>:</p>
+<pre><code class="language-python">print(testable['June'])  # throws a KeyError
+</code></pre>
+<p>To avoid the <code class="language-python">KeyError</code>, we can use the <code class="language-python">get</code> method that returns <code class="language-python">None</code> if the specified key is not in the dictionary:</p>
+<pre><code class="language-python"># 'get' method does not throw an error
+print(testable.get('September'))  # 16°C
+print(testable.get('June'))  # None
+</code></pre>
+<p>With the <code class="language-python">get</code> method, we can also define the default value that will be returned in such a case:</p>
+<pre><code class="language-python">print(testable.get('June', 'no temperature'))  # no temperature
+</code></pre>
+<p><em>2.</em> <em>Remove the key from the dictionary and return the value using the </em><code class="language-python">pop</code><em> method.</em></p>
+<p>If the specified key was found in the dictionary, then the method will remove it and return the value:</p>
+<pre><code class="language-python">testable = {'September': '16°C', 'December': '-10°C'}
+return_value = testable.pop('December')
+
+print(return_value)  # -10°C
+print(testable)  # {'September': '16°C'}</code></pre>
+<p>If the key was not found,  a <code class="language-python">KeyError</code> will appear:</p>
+<pre><code class="language-python">testable.pop('July')  # throws a KeyError</code></pre>
+<p>To get rid of it, we can provide a default argument, and it will return this default value:</p>
+<pre><code class="language-python">return_value = testable.pop('July', 'no temperature')
+print(return_value)  #  no temperature</code></pre>
+<p><em>3.</em> <em>Remove and return the last item (key, value) added to the dictionary</em> <em>using the </em><code class="language-python">popitem</code><em> method:</em></p>
+<pre><code class="language-python">testable = {'September': '16°C', 'December': '-10°C'}
+return_value = testable.popitem()
+
+print(return_value)  # ('December', '-10°C')
+print(testable)  # {'September': '16°C'}</code></pre>
+<p>Pay attention, if the dictionary is empty,  a <code class="language-python">KeyError</code> will appear:</p>
+<pre><code class="language-python">testable = {}     
+return_value = testable.popitem()
+# KeyError: 'popitem(): dictionary is empty'</code></pre>
+<p></p><div class="alert alert-primary"> Before Python 3.7, the <code class="language-python">popitem</code> method removes and returns a<em> random item</em> from the dictionary, not <em>the last one added</em>.</div><p></p>
+<h5 id="cleaning-the-dictionary" style="text-align: center;">Cleaning the dictionary</h5>
+<p>All the methods described above return a value or an item (key, value) upon removing, but sometimes this is not what we want. There are two ways that remove an item from the dictionary (they do not return anything) or the entire dictionary content at once.</p>
+<p><em>1. Delete (remove from a dictionary) a value by its key with the </em><code class="language-python">del</code><em> keyword:</em></p>
+<pre><code class="language-python">testable = {'September': '16°C', 'December': '-10°C', 'July': '23°C'}
+
+# this will remove both the key and the value from dictionary object
+del testable['September']  
+print(testable)  # {'December': '-10°C', 'July': '23°C'}
+
+# throws a KeyError because there's no such key in the dictionary
+del testable['May']
+ 
+# throws a KeyError, as we've already deleted the object by the key
+del testable['September']
+
+# deletes the whole dictionary
+del testable</code></pre>
+<p>2. <em>Remove all the items and return an empty dictionary</em> using the <code class="language-python">clear</code> method:</p>
+<pre><code class="language-python">testable = {'September': '16°C', 'December': '-10°C', 'July': '23°C'}
+
+testable.clear()  # remove all elements
+print(testable)   # {}</code></pre>
+<h5 id="differences-in-removal-methods" style="text-align: center;">Differences in removal methods</h5>
+<p>You may wonder, is there any difference between <code class="language-python">dict = {}</code> and <code class="language-python">dict.clear()</code> ? Let's say we have another variable that refers to the same dictionary:</p>
+<pre><code class="language-python">testable = {'December': '-10°C', 'July': '23°C'}
+another_testable = testable</code></pre>
+<p>Then, the <code class="language-python">dict = {}</code> just creates a new empty dictionary and assigns it to our variable. Let's go back to the example above and assign an empty dictionary to <code class="language-python">testable</code>:</p>
+<pre><code class="language-python">testable = {}
+print(testable)  # {}
+print(another_testable)  # {'December': '-10°C', 'July': '23°C'}</code></pre>
+<p><code class="language-python">another_testable</code> still points to the original dictionary with the same elements, so it doesn't change.</p>
+<p>In contrast, the <code class="language-python">clear</code> method will clear the dictionary as well as all the objects referring to it:</p>
+<pre><code class="language-python">testable = {'December': '-10°C', 'July': '23°C'}
+
+testable.clear()
+print(testable)  # {}
+print(another_testable)  # {}</code></pre>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>What have we learned in this topic?</p>
+<ul>
+<li>a new <code class="language-python">fromkeys</code> method for alternative dictionary creation; we also found out its peculiarities,</li>
+<li>different methods to access elements and/or remove them by key (<code class="language-python">get</code>, <code class="language-python">pop</code>), as well as by adding order (<code class="language-python">popitem</code>),</li>
+<li>discovered how to add new items to the dictionary with the <code class="language-python">update</code> method,</li>
+<li>the <code class="language-python">del</code> keyword and how to use it,</li>
+<li>got acquainted with the features of clearing the dictionary (<code class="language-python">dict = {}</code> and <code class="language-python">dict.clear()</code>).</li>
+</ul>
+<p>If you want to see more information on dictionaries, don't forget to check out <a href="https://docs.python.org/3/library/stdtypes.html#dict" rel="noopener noreferrer nofollow" target="_blank">the Python documentation</a>.</p></body></html>
